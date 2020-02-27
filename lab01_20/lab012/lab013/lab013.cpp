@@ -25,7 +25,7 @@ struct Matrix // квадратная матрица размером не бо�
 	unsigned int matSize;
 };
 
-Matrix ReadMatrix(std::istream& matrixFile, const unsigned int& mSize)
+Matrix ReadMatrix(std::istream& matrixFile, const unsigned int mSize)
 {
 	Matrix resMatrix;
 
@@ -40,11 +40,11 @@ Matrix ReadMatrix(std::istream& matrixFile, const unsigned int& mSize)
 
 	std::string line;
 
-	for (unsigned int i = 0; i < resMatrix.matSize; i++)
+	for (size_t i = 0; i < resMatrix.matSize; i++)
 	{
 		getline(matrixFile, line);
 		std::istringstream dataPieces(line);
-		for (unsigned int j = 0; j < resMatrix.matSize; j++)
+		for (size_t j = 0; j < resMatrix.matSize; j++)
 		{
 			dataPieces >> resMatrix.elem[i][j];
 		}
@@ -227,6 +227,7 @@ int main(int argc, char* argv[])
 		PrintResults(dataMat, inverse, error);
 		return 2; // не загружена матрица из файла
 	}
+	PrintMatrix(dataMat);
 	
 	FindInverse(dataMat, inverse, error);
 	PrintResults(dataMat, inverse, error);
