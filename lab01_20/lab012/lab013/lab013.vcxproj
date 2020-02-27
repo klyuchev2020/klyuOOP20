@@ -153,6 +153,12 @@
   <ItemGroup>
     <ClCompile Include="lab013.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test013.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TestMatrix1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
