@@ -1,0 +1,10 @@
+Calculates inverse matrix for given 3x3 matrix
+          -1           1          -1
+           2           0          -1
+           1           2          -2
+
+Inverse for given matrix is matrix
+      -0.667           0       0.333
+          -1          -1           1
+       -1.33          -1       0.667
+

@@ -1,0 +1,6 @@
+Calculates inverse matrix for given 3x3 matrix
+           2           3           4
+   -1.07e+08   -1.07e+08   -1.07e+08
+   -1.07e+08   -1.07e+08   -1.07e+08
+
+Given matrix is singular, so there is no inverse for it!

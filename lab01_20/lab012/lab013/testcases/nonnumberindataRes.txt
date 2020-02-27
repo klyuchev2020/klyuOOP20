@@ -1,0 +1,10 @@
+Calculates inverse matrix for given 3x3 matrix
+           2   -1.07e+08   -1.07e+08
+           1           2           6
+           3         4.9           7
+
+Inverse for given matrix is matrix
+    1.45e-08      -0.212       0.404
+   -1.03e-08      -0.303       0.101
+    1.03e-09       0.303      -0.101
+
