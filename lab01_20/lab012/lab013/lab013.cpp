@@ -16,6 +16,8 @@
 
 enum errorType { NoError = 0, NoEnoughArgs, NoMatrixFile, SingularMatrix };
 
+// убрать TESTING_MODE!
+
 const int sizeM = 3;
 
 
@@ -236,7 +238,3 @@ int main(int argc, char* argv[])
 }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 918f34406cc29ab34ace47f3ae9141c1ed615f69
