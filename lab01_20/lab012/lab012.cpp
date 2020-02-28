@@ -7,7 +7,7 @@
 #include <limits.h>
 #include <iostream>
 
-#define TESTING_MODE 1
+#define TESTING_MODE 1 // выпилить TESTING_MODE
 
 enum errorType { NoError = 0, WrongSourceRadix, WrongDestiRadix, IllegalSymbol, OutOfRange };
 
