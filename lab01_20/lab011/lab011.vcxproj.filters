@@ -15,21 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lab013.cpp">
+    <ClCompile Include="lab011.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test013.bat">
+    <None Include="test011.bat">
       <Filter>Исходные файлы</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="TestMatrix1.txt" />
-    <Text Include="TestSingular1.txt" />
-    <Text Include="Test2.txt" />
-    <Text Include="OneStringMatrix.txt" />
-    <Text Include="FourRowsTwoCols.txt" />
-    <Text Include="LettersInMatrix.txt" />
+    <ClInclude Include="findstring.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

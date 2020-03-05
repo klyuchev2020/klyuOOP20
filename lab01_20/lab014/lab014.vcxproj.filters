@@ -15,21 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lab013.cpp">
+    <ClCompile Include="lab014.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test013.bat">
-      <Filter>Исходные файлы</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="TestMatrix1.txt" />
-    <Text Include="TestSingular1.txt" />
-    <Text Include="Test2.txt" />
-    <Text Include="OneStringMatrix.txt" />
-    <Text Include="FourRowsTwoCols.txt" />
-    <Text Include="LettersInMatrix.txt" />
+    <Text Include="SmallTest(10bytes).txt" />
   </ItemGroup>
 </Project>

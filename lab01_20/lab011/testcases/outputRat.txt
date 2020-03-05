@@ -1,0 +1,5 @@
+Program is to find inclusions of the given string in given file
+2
+5
+9
+These are numbers of strings in file houseJackShort.txt, there the string "rat" is appear.

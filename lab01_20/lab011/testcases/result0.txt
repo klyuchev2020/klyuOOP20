@@ -1,0 +1,7 @@
+Program is to find inclusions of the given string in given file
+1
+2
+4
+7
+11
+These are numbers of strings in file houseJackShort.txt, there the string "house" is appear.

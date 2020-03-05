@@ -7,13 +7,10 @@
 #include <limits.h>
 #include <iostream>
 
-#define TESTING_MODE 1 // выпилить TESTING_MODE
-
-enum errorType { NoError = 0, WrongSourceRadix, WrongDestiRadix, IllegalSymbol, OutOfRange };
 
 std::string digSetUpper = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-int GetValueOfDigit(const char symbol, const std::string& digitsUpper, errorType& wasError)
+int GetValueOfDigit(const char symbol, const std::string& digitsUpper)
 {
 	int digUppValue = (int) digitsUpper.find(toupper(symbol));
 		
@@ -23,8 +20,8 @@ int GetValueOfDigit(const char symbol, const std::string& digitsUpper, errorType
 	}
 	else 
 	{
-		wasError = IllegalSymbol;
-		return -1;
+		throw
+			std::invalid_argument("Illegal symbols in given number string!");
 	}
 }
 
@@ -34,7 +31,7 @@ char GetDigitOnValue(const int value, const int radix, const std::string& digits
 }
 
 
-bool WillBeResultInRange(int currResult, bool isNegative, int digValue, int radix)
+bool IsExpectedResultInRange(int currResult, bool isNegative, int digValue, int radix)
 {
 	const int bound = (isNegative) ? std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
 	const int quotient = bound / radix;
@@ -43,7 +40,7 @@ bool WillBeResultInRange(int currResult, bool isNegative, int digValue, int radi
 	return ((std::abs(currResult) < std::abs(quotient)) || ((currResult == std::abs(quotient)) && (digValue <= std::abs(rest))));
 }
 
-int StringToInt(const std::string& str, int radix, errorType& wasError)
+int StringToInt(const std::string& str, int radix)
 {
 	std::string digitsUpper = digSetUpper.substr(0, radix);
 	
@@ -61,19 +58,17 @@ int StringToInt(const std::string& str, int radix, errorType& wasError)
 	while (pos < str.length())
 	{
 		char symbol = str[pos];
-		int digValue = GetValueOfDigit(symbol, digitsUpper, wasError); // проверяем, каково значение очередного символа
-		if (wasError == IllegalSymbol)
-		{
-			break;
-		}
-		if (WillBeResultInRange(result, isNegative, digValue, radix))
+		int digValue = GetValueOfDigit(symbol, digitsUpper); // проверяем, каково значение очередного символа
+		
+		if (IsExpectedResultInRange(result, isNegative, digValue, radix))
 		{
 			result = result * radix + digValue;
 		}
 		else
 		{
-			wasError = OutOfRange; // переполнение
-			break;
+			std::string message = std::string("Given number ") + str + std::string(" is out of integer range!");
+			throw
+				std::out_of_range(message); // переполнение
 		}
 		pos++;
 	}
@@ -81,8 +76,19 @@ int StringToInt(const std::string& str, int radix, errorType& wasError)
 	return isNegative ? -result : result;
 }
 
+bool RadixWell(int radix)
+{
+	return (radix >= 2) && (radix <= 36);
+}
+
 std::string IntToString(int n, int radix)
 {
+	if (!RadixWell(radix))
+	{
+		throw
+		    std::out_of_range("Wrong radix value");
+	}
+	
 	std::string digitsUpper = digSetUpper.substr(0, radix);
 	std::string numberImage;
 	int signum = (n >= 0) ? 1 : -1;
@@ -90,9 +96,9 @@ std::string IntToString(int n, int radix)
 
 	while (numberRest != 0)
 	{
-		int currDigit = (signum * numberRest) % radix;
-		numberRest = (numberRest - signum * currDigit) / radix;
-
+		int currDigit = std::abs(numberRest % radix);
+		numberRest = (numberRest < 0) ? std::abs(numberRest + currDigit) / radix : std::abs(numberRest - currDigit) / radix;
+		
 		char nextSymbol = GetDigitOnValue(currDigit, radix, digitsUpper);
 		numberImage.push_back(nextSymbol);
 	}
@@ -115,93 +121,65 @@ bool NoEnoughArgs(const int argcount)
 {
 	if (argcount < 4)
 	{
-		std::cout << "The program must have three arguments: 1) present radix; 2) new radix; 3) value to transform" 
-			<< std::endl;
+		throw
+			std::invalid_argument("The program must have three arguments: 1) pr"
+				"esent radix; 2) new radix; 3) value to transform");
 	}
 	return (argcount < 4);
 }
 
-int WhatRadix(const char* radixString, errorType& wasError, const errorType whatError)
+int GetRadix(const char* radixString, const char* whichRadix)
 {
 	const unsigned int radixValue = std::strtoul(radixString, nullptr, 10);
-	const int radix = ((radixValue >= 2) && (radixValue <= 36)) ? radixValue : 0;
-
-	if (!radix) wasError = whatError;
-
-	return radix;
-}
-
-std::string getNewNumberRepresentation(const std::string& givenNumberString, const int sourceRadix,
-	const int destiRadix, errorType& wasError)
-{
-	int numberToWrite = StringToInt(givenNumberString, sourceRadix, wasError);
-	
-	return (wasError == NoError) ? IntToString(numberToWrite, destiRadix) : "";
-}
-
-void PrintResults(const char* sourceRadixString, const char* destiRadixString,
-	const char* givenNumberString, const std::string& resultNumberString, const errorType wasError)
-{
-	if (TESTING_MODE)
+	if (RadixWell(radixValue))
 	{
-		std::cout << resultNumberString.c_str() << std::endl;
-		std::cout << wasError << std::endl;
+		return radixValue;
 	}
 	else
 	{
-		std::cout << "Transform given integer value form one number system to other\n" << std::endl;
-		std::cout << "Radices of value from 2 to 36. Digits from 10 to 35 are letters form A to Z\n" << std::endl;
-
-		switch (wasError)
-		{
-		case WrongSourceRadix:
-			std::cout << "Invalid source radix notation! Given " << sourceRadixString
-				<< ", number between 2 and 36 expected" << std::endl;
-			break;
-		case WrongDestiRadix:
-			std::cout << "Invalid destination radix notation! Given " << destiRadixString
-				<< ", number between 2 and 36 expected" << std::endl;
-			break;
-		case IllegalSymbol:
-			std::cout << "Illegal symbols in given number string!" << std::endl;
-			break;
-		case OutOfRange:
-			std::cout << "Given number " << givenNumberString << " is out of integer range!" << std::endl;
-			break;
-		default:
-			std::cout << givenNumberString << " in radix " << sourceRadixString << " will in radix "
-				<< destiRadixString << " be " << resultNumberString.c_str() << std::endl;
-		}
+		std::string message = std::string("Invalid ") + std::string(whichRadix) + std::string(" radix notation! Given ") +
+			std::string(radixString) + std::string(", number between 2 and 36 expected");
+		throw
+			std::invalid_argument(message);
 	}
+}
+
+std::string GetNewNumberRepresentation(const std::string& givenNumberString, const int sourceRadix,
+	const int destiRadix)
+{
+	int numberToWrite = StringToInt(givenNumberString, sourceRadix);
+	
+	return IntToString(numberToWrite, destiRadix);
 }
 
 int main(int argc, char* argv[])
 {
-	if (NoEnoughArgs(argc)) return 1; // недостаточно аргументов
-
-	errorType wasError = NoError;
-
-	const int sourceRadix = WhatRadix(argv[1], wasError, WrongSourceRadix);
-	const int destiRadix = WhatRadix(argv[2], wasError, WrongDestiRadix);
-	const std::string givenNumberString = argv[3];
-
-	std::string resultNumberString;
-
-	if (wasError)  // неправильные основания систем счисления
+	try
 	{
-		PrintResults(argv[1], argv[2], argv[3], resultNumberString, wasError);
-		return 2;
+		if (NoEnoughArgs(argc)) return 1; // недостаточно аргументов
+				
+		const int sourceRadix = GetRadix(argv[1], "source");
+		const int destiRadix = GetRadix(argv[2], "destination");
+		const std::string givenNumberString(argv[3]);
+
+		std::string resultNumberString = GetNewNumberRepresentation(givenNumberString, sourceRadix, destiRadix);
+
+		std::cout << resultNumberString.c_str() << std::endl;
+
+		return 0;
+		
 	}
-
-	resultNumberString = getNewNumberRepresentation(givenNumberString, sourceRadix, destiRadix, wasError);
-
-	if (wasError)  // невозможно корректно обработать данную строку, изображающую число
+	catch (const std::invalid_argument& e)
 	{
-		PrintResults(argv[1], argv[2], argv[3], resultNumberString, wasError);
-		return 3;
+		std::cout << "Wrong data: " << e.what() << std::endl;
 	}
-
-	PrintResults(argv[1], argv[2], argv[3], resultNumberString, wasError);
-	return 0;
+	catch (const std::out_of_range& e)
+	{
+		std::cout << "Number is out of range: " << e.what() << std::endl;
+	}
+	catch (...)
+	{
+		std::cout << "Unexpected exception!" << std::endl;
+	}
 }
 

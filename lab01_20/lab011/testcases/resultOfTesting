@@ -1,0 +1,36 @@
+Program is to find inclusions of the given string in given file
+The program must have two arguments: 1) file name; 2) string to find
+
+Program is to find inclusions of the given string in given file
+The program must have two arguments: 1) file name; 2) string to find
+
+Program is to find inclusions of the given string in given file
+4
+8
+These are numbers of strings in file houseJackShort.txt, there the string "cat" is appear.
+
+Сравнение файлов outputNotExists.txt и NOTEXISTINGFILERESULT.TXT
+FC: различия не найдены
+
+
+Сравнение файлов outputAbsent.txt и HOUSESHORTABSENTRESULT.TXT
+FC: различия не найдены
+
+
+Сравнение файлов outputDog.txt и HOUSESHORTDOGRESULT.TXT
+FC: различия не найдены
+
+
+Сравнение файлов outputRat.txt и HOUSESHORTRATRESULT.TXT
+FC: различия не найдены
+
+
+Сравнение файлов outputAt.txt и HOUSESHORTATRESULT.TXT
+FC: различия не найдены
+
+
+Сравнение файлов outputJaFull.txt и HOUSEJACKFULLJARESULT.TXT
+FC: различия не найдены
+
+
+Program testing succeeded :-)

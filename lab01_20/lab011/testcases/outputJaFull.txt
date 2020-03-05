@@ -1,0 +1,13 @@
+Program is to find inclusions of the given string in given file
+1
+2
+4
+7
+11
+18
+26
+35
+45
+56
+68
+These are numbers of strings in file houseJackFull.txt, there the string "Ja" is appear.
