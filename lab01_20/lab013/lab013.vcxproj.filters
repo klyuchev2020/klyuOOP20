@@ -31,5 +31,12 @@
     <Text Include="OneStringMatrix.txt" />
     <Text Include="FourRowsTwoCols.txt" />
     <Text Include="LettersInMatrix.txt" />
+    <Text Include="noparamRes.txt" />
+    <Text Include="notexistingRes.txt" />
+    <Text Include="onestringRes.txt" />
+    <Text Include="twoelemstringsRes.txt" />
+    <Text Include="nonnumberindataRes.txt" />
+    <Text Include="zerodetRes.txt" />
+    <Text Include="regularRes.txt" />
   </ItemGroup>
 </Project>

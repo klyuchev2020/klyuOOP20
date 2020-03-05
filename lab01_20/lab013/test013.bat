@@ -5,49 +5,55 @@ set PROGRAM="%~1"
 echo %PROGRAM%
 
 REM запуск программы без параметров
-%PROGRAM%
-IF NOT ERRORLEVEL 1 GOTO err
+%PROGRAM% > "%TEMP%\noparamOut.txt"
+if NOT ERRORLEVEL 0 goto err
+fc.exe "%TEMP%\noparamOut.txt" noparamRes.txt
+if ERRORLEVEL 1 goto err
+
 
 echo.
 
 REM запуск программы с несуществующим именем файла
-%PROGRAM% notexistingfile.txt
-IF NOT ERRORLEVEL 2 GOTO err
+%PROGRAM% notexistingfile.txt > "%TEMP%\notexistingOut.txt"
+if NOT ERRORLEVEL 0 goto err
+fc.exe "%TEMP%\notexistingOut.txt" notexistingRes.txt
+if ERRORLEVEL 1 goto err
+
 
 echo.
 
 
 rem при запуске с правильными параметрами ожидается нулевой код возврата
-%PROGRAM% testcases\onestring.txt > "%TEMP%\onestringRes.txt"
+%PROGRAM% testcases\onestring.txt > "%TEMP%\onestringOut.txt"
 if NOT ERRORLEVEL 0 goto err
-fc.exe "%TEMP%\onestringRes.txt" testcases\onestringRes.txt
+fc.exe "%TEMP%\onestringOut.txt" onestringRes.txt
 if ERRORLEVEL 1 goto err
 
 
 rem при запуске с правильными параметрами ожидается нулевой код возврата
-%PROGRAM% testcases\twoelemstrings.txt > "%TEMP%\twoelemstringsRes.txt" 
-if ERRORLEVEL 1 goto err
-fc.exe "%TEMP%\twoelemstringsRes.txt" testcases\twoelemstringsRes.txt
-if ERRORLEVEL 1 goto err
-
-
-rem при запуске с правильными параметрами ожидаетс¤ нулевой код возврата
-%PROGRAM% testcases\nonnumberindata.txt > "%TEMP%\nonnumberindataRes.txt" 
-if ERRORLEVEL 1 goto err
-fc.exe "%TEMP%\nonnumberindataRes.txt" testcases\nonnumberindataRes.txt
+%PROGRAM% testcases\twoelemstrings.txt > "%TEMP%\twoelemstringsOut.txt" 
+if NOT ERRORLEVEL 0 goto err
+fc.exe "%TEMP%\twoelemstringsOut.txt" twoelemstringsRes.txt
 if ERRORLEVEL 1 goto err
 
 
 rem при запуске с правильными параметрами ожидаетс¤ нулевой код возврата
-%PROGRAM% testcases\zerodet.txt > "%TEMP%\zerodetRes.txt" 
+%PROGRAM% testcases\nonnumberindata.txt > "%TEMP%\nonnumberindataOut.txt" 
+if NOT ERRORLEVEL 0 goto err
+fc.exe "%TEMP%\nonnumberindataOut.txt" nonnumberindataRes.txt
 if ERRORLEVEL 1 goto err
-fc.exe "%TEMP%\zerodetRes.txt" testcases\zerodetRes.txt
+
+
+rem при запуске с правильными параметрами ожидаетс¤ нулевой код возврата
+%PROGRAM% testcases\zerodet.txt > "%TEMP%\zerodetOut.txt" 
+if NOT ERRORLEVEL 0 goto err
+fc.exe "%TEMP%\zerodetOut.txt" zerodetRes.txt
 if ERRORLEVEL 1 goto err
 
 rem при запуске с правильными параметрами ожидаетс¤ нулевой код возврата
-%PROGRAM% testcases\regular.txt > "%TEMP%\regularRes.txt" 
-if ERRORLEVEL 1 goto err
-fc.exe "%TEMP%\regularRes.txt" testcases\regularRes.txt
+%PROGRAM% testcases\regular.txt > "%TEMP%\regularOut.txt" 
+if NOT ERRORLEVEL 0 goto err
+fc.exe "%TEMP%\regularOut.txt" regularRes.txt
 if ERRORLEVEL 1 goto err
 
 

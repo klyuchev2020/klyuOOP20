@@ -259,6 +259,7 @@ int main(int argc, char* argv[])
 			FindInverse(dataMatrix, inverseMatrix);
 			PrintResults(dataMatrix, inverseMatrix);
 		}
+		return 0;
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -273,7 +274,7 @@ int main(int argc, char* argv[])
 		std::cout << "Unknown exception occured!" << std::endl;
 	}
 
-	return 0;
+	
 }
 
 

@@ -1,0 +1,1 @@
+Impossible operation: Matrix is singular so it has no inverse

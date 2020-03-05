@@ -72,19 +72,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -171,17 +171,33 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="2020From3Res.txt" />
+    <Text Include="2020From3_Res.txt" />
     <Text Include="2020To3Res.txt" />
+    <Text Include="2020To3_Res.txt" />
     <Text Include="AlmostMinNumberRes.txt" />
+    <Text Include="almostMinNumRes.txt" />
     <Text Include="BigSourceRes.txt" />
+    <Text Include="bigSrcRes.txt" />
     <Text Include="From23To25Res.txt" />
+    <Text Include="from23To25_Res.txt" />
     <Text Include="From25To23Res.txt" />
+    <Text Include="from25To23_Res.txt" />
     <Text Include="MaxIntNumberRes.txt" />
+    <Text Include="maxIntNumRes.txt" />
     <Text Include="MinIntNumberRes.txt" />
+    <Text Include="minIntNumRes.txt" />
+    <Text Include="noparRes.txt" />
+    <Text Include="onlyparRes.txt" />
     <Text Include="SmallDestRes.txt" />
+    <Text Include="smallDstRes.txt" />
     <Text Include="TooBigNumberRes.txt" />
+    <Text Include="tooBigNumRes.txt" />
+    <Text Include="twoparRes.txt" />
+    <Text Include="wrongSmbRes.txt" />
     <Text Include="WrongSourceRes.txt" />
+    <Text Include="wrongSrcRes.txt" />
     <Text Include="WrongSymbRes.txt" />
+    <Text Include="zerooRes.txt" />
     <Text Include="ZeroRes.txt" />
   </ItemGroup>
   <ItemGroup>

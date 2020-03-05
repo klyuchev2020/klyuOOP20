@@ -1,0 +1,10 @@
+Calculates inverse matrix for given 3x3 matrix
+      -1.000       1.000      -1.000
+       0.000      -3.000      -1.000
+       0.000       0.000      -2.000
+
+Inverse for given matrix is matrix
+      -1.000      -0.333       0.667
+       0.000      -0.333       0.167
+      -0.000       0.000      -0.500
+

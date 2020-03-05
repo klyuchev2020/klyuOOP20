@@ -62,6 +62,22 @@
     <Text Include="From23To25Res.txt">
       <Filter>testcases</Filter>
     </Text>
+    <Text Include="noparRes.txt" />
+    <Text Include="onlyparRes.txt" />
+    <Text Include="twoparRes.txt" />
+    <Text Include="wrongSrcRes.txt" />
+    <Text Include="bigSrcRes.txt" />
+    <Text Include="smallDstRes.txt" />
+    <Text Include="wrongSmbRes.txt" />
+    <Text Include="tooBigNumRes.txt" />
+    <Text Include="maxIntNumRes.txt" />
+    <Text Include="minIntNumRes.txt" />
+    <Text Include="zerooRes.txt" />
+    <Text Include="almostMinNumRes.txt" />
+    <Text Include="2020To3_Res.txt" />
+    <Text Include="2020From3_Res.txt" />
+    <Text Include="from25To23_Res.txt" />
+    <Text Include="from23To25_Res.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test012.bat">

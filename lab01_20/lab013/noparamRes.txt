@@ -1,0 +1,2 @@
+Wrong data: No enough arguments to program!
+The program must have one argument: name of file where given matrix is
