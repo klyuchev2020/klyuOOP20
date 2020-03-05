@@ -8,14 +8,48 @@
 #include <string>
 #include <ios>
 
+typedef unsigned char byte;
+
+constexpr int byteCardinal = 256;
 enum Direction { Forward = 0, Backward };
+
+static unsigned short singlebitMask[8] = { 0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000 };
+static int forwardOffset[8] = { 6, 6, 6, 5, 5, 13, 13, 10 };
+static int backwardOffset[8] = { 3, 3, 10, 10, 10, 6, 11, 10 };
+
+byte MixBits(byte initial, Direction direction)
+{
+	byte forwardResult = 0;
+	byte backwardResult = 0;
+	unsigned short prepared = initial * 0x100;
+	for (size_t i = 0; i < 8; ++i)
+	{
+		forwardResult |= (prepared & singlebitMask[i]) >> forwardOffset[i];
+		backwardResult |= (prepared & singlebitMask[i]) >> backwardOffset[i];
+	}
+	return (direction == Forward) ? forwardResult : backwardResult;
+}
+
+static byte forwardMixed[byteCardinal];
+static byte backwardMixed[byteCardinal];
+
+void SetMixedBytes()
+{
+	for (byte ch = 0; ch <= byteCardinal - 1; ++ch)
+	{
+		forwardMixed[ch] = MixBits(ch, Forward);
+		backwardMixed[ch] = MixBits(ch, Backward);
+	}
+}
+
+
 
 struct Args
 {
 	Direction conversionDir;
 	std::string inputFileName;
 	std::string outputFileName;
-	unsigned char key;
+	byte key;
 };
 
 Direction GetDirection(char* directionString)
@@ -70,19 +104,24 @@ void PrintArgs(const Args& args)
 		<< args.key << std::endl;
 }
 
-unsigned char ChiperByte(unsigned char dataByte) // здесь собственно шифрование
+byte ChiperByteForward(byte dataByte, byte key) // здесь собственно шифрование
 {
-	return (dataByte % 2 == 0) ? 'a' : 'b';
+	return forwardMixed[(byte)(dataByte ^ key)];
 }
 
-void ConvertByteStreams(std::ifstream& input, std::ofstream& output)
+byte ChiperByteBackward(byte dataByte, byte key) // здесь собственно шифрование
+{
+	return (byte)(backwardMixed[dataByte] ^ key);
+}
+
+void ConvertByteStreams(std::ifstream& input, std::ofstream& output, byte key)
 {
 	// Копируем содержимое входного файла в выходной
-	char byte;
-	unsigned char newByte;
-	while (input.get(byte))
+	char dataByte;
+	byte newByte;
+	while (input.get(dataByte))
 	{
-		newByte = ChiperByte((unsigned char)byte);
+		newByte = ChiperByteForward((byte) dataByte, key);
 		if (!output.put(newByte))
 		{
 			break;
@@ -99,7 +138,7 @@ int main(int argc, char* argv[])
 		// Проверка правильности аргументов командной строки
 
 		PrintArgs(args);
-
+		
 		// Открываем входной файл
 		std::ifstream input;
 		input.open(args.inputFileName);
@@ -118,7 +157,9 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		ConvertByteStreams(input, output);
+		SetMixedBytes();
+
+		ConvertByteStreams(input, output, args.key);
 
 		if (input.bad())
 		{
