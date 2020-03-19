@@ -21,5 +21,14 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SmallTest(10bytes).txt" />
+    <Text Include="TestJpg1.txt" />
+    <Text Include="SmallTest2.txt" />
+    <Text Include="Hello_World72.txt" />
+    <Text Include="single1bytes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test014.bat">
+      <Filter>Исходные файлы</Filter>
+    </None>
   </ItemGroup>
 </Project>

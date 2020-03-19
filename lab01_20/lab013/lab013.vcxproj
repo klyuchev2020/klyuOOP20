@@ -180,6 +180,7 @@
     <Text Include="FourRowsTwoCols.txt" />
     <Text Include="LettersInMatrix.txt" />
     <Text Include="nonnumberindataRes.txt" />
+    <Text Include="Nonsingular2.txt" />
     <Text Include="noparamRes.txt" />
     <Text Include="notexistingRes.txt" />
     <Text Include="OneStringMatrix.txt" />

@@ -38,5 +38,6 @@
     <Text Include="nonnumberindataRes.txt" />
     <Text Include="zerodetRes.txt" />
     <Text Include="regularRes.txt" />
+    <Text Include="Nonsingular2.txt" />
   </ItemGroup>
 </Project>

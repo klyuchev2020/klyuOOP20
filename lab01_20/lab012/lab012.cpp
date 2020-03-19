@@ -7,14 +7,20 @@
 #include <limits.h>
 #include <iostream>
 
+struct Args
+{
+	int sourceRadix;
+	int destinationRadix;
+	std::string sourceNotation;
+};
 
-std::string digSetUpper = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+std::string digitsUpper = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-int GetValueOfDigit(const char symbol, const std::string& digitsUpper)
+int GetValueOfDigit(const char symbol, const int radix)
 {
 	int digUppValue = (int) digitsUpper.find(toupper(symbol));
 		
-	if (digUppValue != std::string::npos)
+	if ((digUppValue != std::string::npos) && (digUppValue < radix))
 	{
 		return digUppValue;
 	}
@@ -25,42 +31,48 @@ int GetValueOfDigit(const char symbol, const std::string& digitsUpper)
 	}
 }
 
-char GetDigitOnValue(const int value, const int radix, const std::string& digitsUpper)
+char GetDigitOnValue(const int value, const int radix)
 {
-	return ((value >= 0) && (value < radix)) ? digitsUpper[value] : '#';
+	if ((value < 0) || (value >= radix))
+	{
+		throw
+			std::out_of_range("Not a digit occured!");
+	}
+	return digitsUpper[value];
 }
 
 
-bool IsExpectedResultInRange(int currResult, bool isNegative, int digValue, int radix)
+bool IsExpectedResultInRange(int currResult, bool isNumberNegative, int nextDigitValue, int radix)
 {
-	const int bound = (isNegative) ? std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
-	const int quotient = bound / radix;
-	const int rest = bound - quotient * radix;
-
-	return ((std::abs(currResult) < std::abs(quotient)) || ((currResult == std::abs(quotient)) && (digValue <= std::abs(rest))));
+	const int boundOfRange = (isNumberNegative) ? std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
+	const int quotient = boundOfRange / radix;
+	if (std::abs(currResult) < std::abs(quotient))
+	{
+		return true;
+	}
+	const int restToBound = boundOfRange - quotient * radix;
+    return ((currResult == std::abs(quotient)) && (nextDigitValue <= std::abs(restToBound)));
 }
 
 int StringToInt(const std::string& str, int radix)
 {
-	std::string digitsUpper = digSetUpper.substr(0, radix);
-	
 	int result = 0;
-	bool isNegative = false;
+	bool isNumberNegative = false;
 
 	size_t pos = 0;
 
 	if (str[0] == '-')
 	{
-		isNegative = true;
+		isNumberNegative = true;
 		pos++;
 	}
 	
 	while (pos < str.length())
 	{
 		char symbol = str[pos];
-		int digValue = GetValueOfDigit(symbol, digitsUpper); // проверяем, каково значение очередного символа
+		int digValue = GetValueOfDigit(symbol, radix); // проверяем, каково значение очередного символа
 		
-		if (IsExpectedResultInRange(result, isNegative, digValue, radix))
+		if (IsExpectedResultInRange(result, isNumberNegative, digValue, radix))
 		{
 			result = result * radix + digValue;
 		}
@@ -73,23 +85,22 @@ int StringToInt(const std::string& str, int radix)
 		pos++;
 	}
 
-	return isNegative ? -result : result;
+	return isNumberNegative ? -result : result;
 }
 
-bool RadixWell(int radix)
+bool RadixValueInRange(int radix)
 {
 	return (radix >= 2) && (radix <= 36);
 }
 
 std::string IntToString(int n, int radix)
 {
-	if (!RadixWell(radix))
+	if (!RadixValueInRange(radix))
 	{
 		throw
 		    std::out_of_range("Wrong radix value");
 	}
 	
-	std::string digitsUpper = digSetUpper.substr(0, radix);
 	std::string numberImage;
 	int signum = (n >= 0) ? 1 : -1;
 	int numberRest = n;
@@ -99,7 +110,7 @@ std::string IntToString(int n, int radix)
 		int currDigit = std::abs(numberRest % radix);
 		numberRest = (numberRest < 0) ? std::abs(numberRest + currDigit) / radix : std::abs(numberRest - currDigit) / radix;
 		
-		char nextSymbol = GetDigitOnValue(currDigit, radix, digitsUpper);
+		char nextSymbol = GetDigitOnValue(currDigit, radix);
 		numberImage.push_back(nextSymbol);
 	}
 	if (n == 0)
@@ -117,21 +128,10 @@ std::string IntToString(int n, int radix)
 }
 
 
-bool NoEnoughArgs(const int argcount)
-{
-	if (argcount < 4)
-	{
-		throw
-			std::invalid_argument("The program must have three arguments: 1) pr"
-				"esent radix; 2) new radix; 3) value to transform");
-	}
-	return (argcount < 4);
-}
-
 int GetRadix(const char* radixString, const char* whichRadix)
 {
 	const unsigned int radixValue = std::strtoul(radixString, nullptr, 10);
-	if (RadixWell(radixValue))
+	if (RadixValueInRange(radixValue))
 	{
 		return radixValue;
 	}
@@ -144,42 +144,55 @@ int GetRadix(const char* radixString, const char* whichRadix)
 	}
 }
 
-std::string GetNewNumberRepresentation(const std::string& givenNumberString, const int sourceRadix,
-	const int destiRadix)
+std::string ConvertNumericNotation(const std::string& sourceNotation, const int sourceRadix,
+	const int destinationRadix)
 {
-	int numberToWrite = StringToInt(givenNumberString, sourceRadix);
+	int givenNumber = StringToInt(sourceNotation, sourceRadix);
 	
-	return IntToString(numberToWrite, destiRadix);
+	return IntToString(givenNumber, destinationRadix);
+}
+
+Args ParseCommandLine(int argc, char* argv[])
+{
+	if (argc != 4)
+	{
+		throw
+			std::invalid_argument("The program must have three arguments: 1) pr"
+				"esent radix; 2) new radix; 3) value to transform");
+	}
+	Args args;
+	args.sourceRadix = GetRadix(argv[1], "source"); 
+	args.destinationRadix = GetRadix(argv[2], "destination"); 
+	args.sourceNotation = std::string(argv[3]); 
+	
+	return args;
 }
 
 int main(int argc, char* argv[])
 {
 	try
 	{
-		if (NoEnoughArgs(argc)) return 1; // недостаточно аргументов
-				
-		const int sourceRadix = GetRadix(argv[1], "source");
-		const int destiRadix = GetRadix(argv[2], "destination");
-		const std::string givenNumberString(argv[3]);
+		Args args = ParseCommandLine(argc, argv);
 
-		std::string resultNumberString = GetNewNumberRepresentation(givenNumberString, sourceRadix, destiRadix);
-
+		std::string resultNumberString = ConvertNumericNotation(args.sourceNotation, args.sourceRadix, args.destinationRadix);
 		std::cout << resultNumberString.c_str() << std::endl;
 
 		return 0;
-		
 	}
 	catch (const std::invalid_argument& e)
 	{
 		std::cout << "Wrong data: " << e.what() << std::endl;
+		return 1;
 	}
 	catch (const std::out_of_range& e)
 	{
 		std::cout << "Number is out of range: " << e.what() << std::endl;
+		return 2;
 	}
 	catch (...)
 	{
 		std::cout << "Unexpected exception!" << std::endl;
+		return 3;
 	}
 }
 

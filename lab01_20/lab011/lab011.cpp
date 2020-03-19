@@ -1,14 +1,6 @@
 ﻿// lab011.cpp: определяет точку входа для консольного приложения.
 // Отмечает номера строк в данном файле, включающих заданную подстроку
 
-#include <stdio.h>
-#include <tchar.h>
-#include <iostream>
-#include <string> 
-#include <fstream>
-#include <optional>
-#include <functional>
-
 #include "findstring.h"
 
 int main(int argc, char* argv[])
@@ -16,7 +8,7 @@ int main(int argc, char* argv[])
 	std::cout << "Program is to find inclusions of the given string in given file"
 		<< std::endl;
 
-	auto args = ParseArgs(argc, argv);
+	auto args = ParseCommandLine(argc, argv);
 	if (!args)
 	{
 		return 1; // недостаточно аргументов
@@ -48,7 +40,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-std::optional<Args> ParseArgs(int argc, char* argv[])
+std::optional<Args> ParseCommandLine(int argc, char* argv[])
 {
 	if (argc < 3)
 	{
