@@ -1,7 +1,7 @@
 ﻿#include "../lab021/stdafx.h"
 #include "../lab021/TransformVector.h"
 
-TEST_CASE("Transformation of empty vector is identity ")
+TEST_CASE("Transformation of empty vector must be empty ")
 {
 	std::vector<float> v0 = { };
 	std::vector<float> v0expRes = { };
@@ -10,7 +10,7 @@ TEST_CASE("Transformation of empty vector is identity ")
 	CHECK(v0 == v0expRes);
 }
 
-TEST_CASE("Transformation of positive vector is identity")
+TEST_CASE("Transformation of positive vector must be the same vector")
 {
     std::vector<float> v1 = { 1, 2, 3, 4, 5, 6 };
 	std::vector<float> v1expRes = { 1, 2, 3, 4, 5, 6 };
@@ -19,7 +19,7 @@ TEST_CASE("Transformation of positive vector is identity")
 	CHECK(v1 == v1expRes);
 }
 
-TEST_CASE("Transformation of nonnegative vector with zeros is identity")
+TEST_CASE("Transformation of nonnegative vector with zeroes must be the same vector")
 {
 	std::vector<float> v1 = { 1, 0.0, 3, 4, 5, 0 };
 	std::vector<float> v1expRes = { 1, 0.0, 3, 4, 5, 0 };
@@ -30,7 +30,7 @@ TEST_CASE("Transformation of nonnegative vector with zeros is identity")
 
 
 
-TEST_CASE("Modification of negatives")
+TEST_CASE("Negative elements of vector are to be multiplied on max*min product")
 {
 	std::vector<float> v2 = { -1.0, 3.0 };
 	std::vector<float> v2expRes = { 3.0, 3.0 };

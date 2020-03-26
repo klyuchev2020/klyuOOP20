@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-char SubstCode(const std::string& codeString, size_t& pos);
+char GetSubstitutionOnPosition(const std::string& codeString, size_t& pos);
 std::string Decode(const std::string& codeString);

@@ -13,14 +13,21 @@
 Формат командой строки: labyrinth.exe <input file> <output file>
 */
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <string>
 
 constexpr size_t FIELD_SIDE = 100; // сторона квадратного поля, в котором размещен лабиринт
 constexpr size_t CELLS_NUMBER = FIELD_SIDE * FIELD_SIDE;
-enum Cell {Wall = -1, Floor = -2, Start = -3, Finish = -4, NoNeigh = CELLS_NUMBER};
+enum Cell
+{
+	Wall = -1,
+	Floor = -2,
+	Start = -3,
+	Finish = -4,
+	NoNeigh = CELLS_NUMBER
+};
 
 struct Labyrinth
 {
@@ -52,8 +59,7 @@ size_t GetRight(size_t cellPos)
 	return ((cellPos + 1) % FIELD_SIDE != 0) ? (cellPos + 1) : NoNeigh;
 }
 
-
-bool IsWallSign(char ch) 
+bool IsWallSign(char ch)
 {
 	return (ch == '#');
 }
@@ -98,11 +104,9 @@ int GetCellInitCode(char ch)
 	}
 	else
 	{
-		throw
-			std::invalid_argument("Unexpected symbol in labyrinth description");
+		throw std::invalid_argument("Unexpected symbol in labyrinth description");
 	}
 }
-
 
 void LabyrinthInit(std::string const& labyrinthData, Labyrinth& labyrinth)
 {
@@ -125,19 +129,17 @@ void LabyrinthInit(std::string const& labyrinthData, Labyrinth& labyrinth)
 	}
 	if ((starts != 1) || (finishes != 1))
 	{
-		throw
-			std::invalid_argument("Not unique start or finish position");
+		throw std::invalid_argument("Not unique start or finish position");
 	}
 }
 
-
-std::string LoadLabyrinthData(std::istream& labyrinthFile)  // 
+std::string LoadLabyrinthData(std::istream& labyrinthFile) //
 {
 	std::string labyrinthData;
 	std::string row;
 	size_t rowCounter = 0;
-	
-	while (getline(labyrinthFile, row) && (rowCounter < FIELD_SIDE)) 
+
+	while (getline(labyrinthFile, row) && (rowCounter < FIELD_SIDE))
 	{
 		size_t cellPosInRow = 0;
 		for (char const& ch : row)
@@ -152,13 +154,82 @@ std::string LoadLabyrinthData(std::istream& labyrinthFile)  //
 	{
 		labyrinthData.append(FIELD_SIDE, ' ');
 	}
-			
+
 	return labyrinthData;
 }
 
-bool ShareWaveFromCell(Labyrinth& labyrinth, size_t cellPos)
+Cell ShareWaveFromCell(Labyrinth& labyrinth, size_t cellPos)
 {
-	return true;
+	Cell cell = NoNeigh;
+	int currMark = labyrinth.mark[cellPos];
+	if (currMark < 0)
+	{
+		return cell;
+	}
+	size_t neighs[4] = { GetAbove(cellPos), GetRight(cellPos), GetUnder(cellPos), GetLeft(cellPos) };
+	for (size_t const& nei : neighs)
+	{
+		if (nei != NoNeigh)
+		{
+			if (labyrinth.mark[nei] == Floor)
+			{
+				labyrinth.mark[nei] = ++currMark;
+				cell = Floor;
+			}
+			if (labyrinth.mark[nei] == Finish)
+			{
+				labyrinth.mark[nei] = ++currMark;
+				return Finish;
+			}
+		}
+	}
+	return cell;
+}
+
+void RunForwardWave(Labyrinth& labyrinth)
+{
+	Cell found = NoNeigh;
+	while (found != Finish)
+	{
+		for (size_t i = 0; i < labyrinth.frontCellsNumber; ++i)
+		{
+			found = ShareWaveFromCell(labyrinth, labyrinth.frontCells[i]);
+		}
+	}
+}
+
+void PrintLabyrinthDebug(const Labyrinth& labyrinth)
+{
+	for (size_t i = 0; i < FIELD_SIDE; ++i)
+	{
+		for (size_t j = 0; j < FIELD_SIDE; ++j)
+		{
+			int curr = labyrinth.mark[FIELD_SIDE * i + j];
+			char visual;
+			if (curr == Wall)
+			{
+				visual = '#';
+			}
+			else if (curr == Floor)
+			{
+				visual = ' ';
+			}
+			else if (curr == Start)
+			{
+				visual = 'A';
+			}
+			else if (curr == Finish)
+			{
+				visual = 'B';
+			}
+			else			
+			{
+				visual = curr - '0';
+			}
+			std::cout << visual;
+		}
+		std::cout << "\n";
+	}
 }
 
 int main(int argc, char* argv[])
@@ -170,14 +241,14 @@ int main(int argc, char* argv[])
 		std::cout << "File is not found!" << std::endl;
 		return 1;
 	}
-		
+
 	std::string labyrinthData = LoadLabyrinthData(labyrinthFile);
 	std::cout << labyrinthData;
 
 	Labyrinth labyrinth;
 	LabyrinthInit(labyrinthData, labyrinth);
 
-	return 0;	
+	PrintLabyrinthDebug(labyrinth);
+
+	return 0;
 }
-
-
