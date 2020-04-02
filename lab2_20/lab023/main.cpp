@@ -12,15 +12,18 @@ int main(int argc, char* argv[])
 		<< "Input phrase to translate or ... to exit" << std::endl;
 
 	std::string vocaFileName = (argc > 1) ? argv[1] : "Vocabulary1.vcb";
-	dict currVocabularDir = {}; // cловарь англ -> рус
-	dict currVocabularRev = {}; // словарь рус -> англ
-
-	GetDictionaryFromFile(vocaFileName, currVocabularDir);
-	BuildRevDictionary(currVocabularRev, currVocabularDir);
-
-	if (Session(currVocabularDir, currVocabularRev)) // сессия работы со словарем
+	Dictionary dictionary = { {}, {}, false };
+	
+	if (!GetDictionaryFromFile(vocaFileName, dictionary.direct))
 	{
-		SaveDictionary(currVocabularDir, vocaFileName);
+		return 1;
+	};
+
+	BuildRevDictionary(dictionary.reverse, dictionary.direct);
+
+	if (Session(dictionary)) // сессия работы со словарем
+	{
+		SaveDictionary(dictionary.direct, vocaFileName);
 	}
 
 	std::cout << "Good bye!" << std::endl;
