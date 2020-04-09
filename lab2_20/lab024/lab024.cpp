@@ -6,20 +6,25 @@
 
 int main(int argc, char* argv[])
 {
-	constexpr unsigned int maxBound = 100000000;
-	unsigned int upperBound = maxBound;
-	unsigned int primesAmount = 0;
+	constexpr size_t maxBound = 100000000;
+	constexpr size_t defaultBound = 10000;
+	size_t upperBound = maxBound;
+	size_t primesAmount = 0;
 	if (argc > 1)
 	{
-		upperBound = ((isdigit(argv[1][0]) && (std::stoi(argv[1]) >= 0))) ? std::stoi(argv[1]) : maxBound;
+		upperBound = ((isdigit(argv[1][0]) && (std::stoi(argv[1]) >= 0))) ? std::stoi(argv[1]) : defaultBound;
+	}
+	else
+	{
+		upperBound = defaultBound;
 	}
 	if (upperBound > maxBound)
 		upperBound = maxBound;
 	std::cout << "Finds set of prime numbers below " << upperBound << std::endl;
 
-	std::set<int> primes(GeneratePrimeNumbersSet(upperBound));
+	std::set<size_t> primes(GeneratePrimeNumbersSet(upperBound));
 	std::cout << primes.size() << " primary numbers upto " << upperBound << " overall:" << std::endl;
-	std::copy(primes.begin(), primes.end(), std::ostream_iterator<unsigned int>(std::cout, " "));
+	std::copy(primes.begin(), primes.end(), std::ostream_iterator<size_t>(std::cout, " "));
 	std::cout << std::endl;
 
 	return 0;
