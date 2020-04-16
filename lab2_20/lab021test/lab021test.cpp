@@ -1,4 +1,4 @@
-﻿#include "../lab021/stdafx.h"
+﻿#include "stdafx.h"
 #include "../lab021/TransformVector.h"
 
 TEST_CASE("Transformation of empty vector must be empty ")
