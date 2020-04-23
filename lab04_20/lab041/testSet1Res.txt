@@ -1,0 +1,27 @@
+Here we input shape collection.
+Each the shape description holds single line with format:
+For Segment Line: "SegmentLine  first_point_x first_point_y second_point_x second_point_y outline_color"
+For Circle:  "Circle center_x center_y radius outline_color fill_color"
+For Triangle: "Triangle first_vertex_x first_vertex_y second_vertex_x second_vertex_y third_vertex_x third_vertex_y outline_color fill_color"
+For Rectangle: "Rectangle left_top_vertex_x left_top_vertex_y width height outline_color fill_color"
+
+6 figures overall
+Figure of maximal area:
+	Shape type is Circle
+	Outline color is 00ff00
+	Fill color is ff0000
+	center is at point (100, 20)
+	radius is 50
+	Perimeter = 314.159
+	Area = 7853.98
+
+Figure of minimal perimeter:
+	Shape type is Triangle
+	Outline color is 000f0f
+	Fill color is ff00ff
+	Vertex 1 is (1.5, 1.5)
+	Vertex 2 is (1.5, 5.5)
+	Vertex 3 is (6, 4)
+	Perimeter = 13.8912
+	Area = 9
+

@@ -1,0 +1,6 @@
+Circle 100.0 20.0 50.0 00ff00 ff0000
+Rectangle 55.0 45.00 100.0 20.0 abcdef fedcba
+Rectangle 100 100 15.0 75 aaaaaa 00aa00
+Triangle 0.0 0 12 24 130 23 ababab 0000ff
+LineSegment 1.5 2.3 12.7 19.1 aaaccd
+Triangle 1.5 1.5 1.5 5.5 6 4 000f0f ff00ff
