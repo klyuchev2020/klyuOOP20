@@ -4,17 +4,24 @@
 #include "stdafx.h"
 #include "CCar.h"
 
-
-enum OperaType { NotOperation = 0, Exit, Info, EngOn, EngOff, SetGear, SetSpeed };
+enum OperaType
+{
+	NotOperation = 0,
+	Exit,
+	Info,
+	EngOn,
+	EngOff,
+	SetGear,
+	SetSpeed
+};
 
 struct CarOperation
 {
 	OperaType operaType; // действия при вождении машины
-	int numerical; // числовой показатель для значения номера передачи, для значения скорости
+	int numeric; // числовой показатель для значения номера передачи, для значения скорости
 };
 
-static const std::vector<std::string> CommandPrefixes =
-{ std::string("Exit"), std::string("Info"), std::string("EngineOn"), std::string("EngineOff"), std::string("SetGear"), std::string("SetSpeed") };
+static const std::vector<std::string> CommandPrefixes = { std::string("Exit"), std::string("Info"), std::string("EngineOn"), std::string("EngineOff"), std::string("SetGear"), std::string("SetSpeed") };
 
 void PrintCarState(CCar aCar)
 {
@@ -24,29 +31,25 @@ void PrintCarState(CCar aCar)
 	std::cout << "Speed: " << aCar.GetSpeedValue() << std::endl;
 }
 
-
-
 void PrintHelp()
 {
 	std::cout << "Drive the car. Enter \"EngineOn\" to turn on the engine," << std::endl;
 	std::cout << "\"EngineOff\" to turn off the engine." << std::endl;
-	std::cout << "Enter \"SetGear 2\" to use 2-th gear (-1 is reverse, 0 is neutral)." << std::endl;
+	std::cout << "Enter \"SetGear 2\" to use 2nd gear (-1 is reverse, 0 is neutral)." << std::endl;
 	std::cout << "Enter \"SetSpeed 100\" to try reach speed of 100." << std::endl;
 	std::cout << "Enter \"Info\" to see car parameters state" << std::endl;
 	std::cout << "Enter \"Exit\" to finish driving." << std::endl;
-
 }
-
 
 int IntFromString(const std::string& str) // защищенное чтение числового параметра
 {
 	const char* cstr = str.c_str();
-	if (cstr[0] == '-') return -1; // корректный отрицательный параметр -- это обязательно номер передачи -1 
+	if (cstr[0] == '-')
+		return -1; // корректный отрицательный параметр -- это обязательно номер передачи -1
 	return (isdigit(cstr[0])) ? stoi(str) : 0;
 }
 
-
-CarOperation ReadOperation(std::string const& Phrase, std::vector<std::string> const& CommandPrefixes)
+CarOperation ReadOperation(std::string const& Phrase)
 {
 	CarOperation result = { NotOperation, 0 };
 	std::stringstream inputLine(Phrase);
@@ -80,11 +83,10 @@ CarOperation ReadOperation(std::string const& Phrase, std::vector<std::string> c
 		inputLine >> partOfPhrase;
 		int numData = IntFromString(partOfPhrase);
 		result.operaType = (*it == "SetGear") ? SetGear : SetSpeed;
-		result.numerical = numData;
+		result.numeric = numData;
 	}
 	return result;
 }
-
 
 bool DriveCar(const CarOperation& operation, CCar& car)
 {
@@ -98,16 +100,20 @@ bool DriveCar(const CarOperation& operation, CCar& car)
 		PrintCarState(car);
 		break;
 	case EngOn:
-		if (!car.TurnOnEngine()) std::cout << car.GetErrorMessage() << std::endl;
+		if (!car.TurnOnEngine())
+			std::cout << car.GetErrorMessage() << std::endl;
 		break;
 	case EngOff:
-		if (!car.TurnOffEngine()) std::cout << car.GetErrorMessage() << std::endl;
+		if (!car.TurnOffEngine())
+			std::cout << car.GetErrorMessage() << std::endl;
 		break;
 	case SetGear:
-		if (!car.SetGear(operation.numerical)) std::cout << car.GetErrorMessage() << std::endl;
+		if (!car.SetGear(operation.numeric))
+			std::cout << car.GetErrorMessage() << std::endl;
 		break;
 	case SetSpeed:
-		if (!car.SetSpeed(operation.numerical)) std::cout << car.GetErrorMessage() << std::endl;
+		if (!car.SetSpeed(operation.numeric))
+			std::cout << car.GetErrorMessage() << std::endl;
 		break;
 	default:
 		PrintHelp();
@@ -115,21 +121,28 @@ bool DriveCar(const CarOperation& operation, CCar& car)
 	return keepOn;
 }
 
-
 int main(int argc, char* argv[])
 {
 	CCar testCar;
 	CarOperation driveElem;
 	while (DriveCar(driveElem, testCar))
 	{
-		PrintCarState(testCar);
+		if (driveElem.operaType != Info)
+        {
+		    PrintCarState(testCar);
+		}
 		std::cout << "> ";
 		std::string inputPhrase;
-		getline(std::cin, inputPhrase);
-		driveElem = ReadOperation(inputPhrase, CommandPrefixes);
+		if (getline(std::cin, inputPhrase))
+		{
+			driveElem = ReadOperation(inputPhrase);
+		}
+		else
+		{
+			break;
+		}
 	}
 	std::cout << "Thank you!" << std::endl;
 
 	return 0;
 }
-

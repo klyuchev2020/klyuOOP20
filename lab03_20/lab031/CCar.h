@@ -16,7 +16,7 @@ enum class DriveError
 class CSpeedRange
 {
 public:
-	CSpeedRange();
+
 	CSpeedRange(int lower, int upper);
 	
 	int GetUpper() const;
@@ -35,23 +35,21 @@ class CGearKit
 {
 public:
 	CGearKit();
-	CGearKit(const CGearKit& givenKit);
-	CGearKit(const CSpeedRange& revRange, const int forNumber, const std::vector<CSpeedRange>& forRange);
+	CGearKit(const CSpeedRange& revRange, const std::vector<CSpeedRange>& forRanges);
 
-	int GetForwardNumber() const;
-	CSpeedRange GetReverseDiapazon() const;
-	CSpeedRange GetForwardDiapazon(const int gear) const;
-
-	bool GearNotExists(const int gear) const;
+	int GetForwardGearsNumber() const;
+	CSpeedRange GetReverseRange() const;
+	CSpeedRange GetForwardRange(const int gear) const;
+	
+	bool CorrectGearNumber(const int gear) const;
 	bool TooFast(const int gear, const int velocity) const;
 	bool TooSlow(const int gear, const int velocity) const;
 	bool AppropVelocity(const int gear, const int velocity) const;
 
 private:
-	int m_forwardNumber;
 	CSpeedRange m_reverseRange;
 	CSpeedRange m_neutralRange;
-	std::vector<CSpeedRange> m_forwardRange;
+	std::vector<CSpeedRange> m_forwardRanges;
 };
 
 class CCar
@@ -78,7 +76,11 @@ public:
 
 	bool TurnOffEngine();
 
-	bool SetGear(int gear);
+	bool AbleToSetForwardGear(const int);
+
+	bool AbleToSetReverseGear();
+
+	bool SetGear(const int gear);
 
 	bool SetSpeed(int speed);
 
@@ -93,5 +95,6 @@ private:
 	CGearKit m_gearKit; // скоростной режим на передачах min и max скорость на передаче от -1 до наивысшей)
 	int m_speed; // скорость
 	int m_gear;  // передача (реверс -1, нейтраль 0, движение вперед 1..n)
+	void RenewDirection();
 };
 

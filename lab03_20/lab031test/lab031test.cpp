@@ -5,7 +5,7 @@
 #include "../lab031/CCar.h"
 
 
-void PrintCarState(CCar aCar)
+void PrintCarState(const CCar& aCar)
 {
 	std::cout << "Engine: " << aCar.GetEngineState() << "  ";
 	std::cout << "Moving direction: " << (int)aCar.GetMovingDirection() << "  ";
@@ -109,12 +109,15 @@ TEST_CASE("Test with reverse moving")
 	CHECK(Zhiguli.TurnOnEngine() == true); // включаем двигатель
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(1) == true); // первая передача, стоим на месте
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Stop);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetSpeed(10) == true); // первая передача, едем вперед 10
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Forward);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(-1) == false); // переключаемся на реверс -- безуспешно
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(0) == true); // переключаемся на нейтраль, но едем вперед
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Forward);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(-1) == false); // переключаемся на реверс -- безуспешно
 	PrintCarState(Zhiguli);
@@ -123,8 +126,10 @@ TEST_CASE("Test with reverse moving")
 	CHECK(Zhiguli.SetGear(1) == true); // первая передача, стоим на месте
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(-1) == true); // переключаемся на реверс, стоя на месте
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Stop);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetSpeed(15) == true); // едем назад 15
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Backward);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(1) == false); // переключаемся на первую -- безуспешно
 	PrintCarState(Zhiguli);
@@ -132,11 +137,16 @@ TEST_CASE("Test with reverse moving")
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(1) == false); // переключаемся на первую -- безуспешно
 	PrintCarState(Zhiguli);
+	CHECK(Zhiguli.SetSpeed(12) == true);
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Backward);
+	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetSpeed(0) == true); // останавливаемся
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Stop);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(1) == true); // переключаемся на первую
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetSpeed(20) == true); // 20 вперед
+	CHECK(Zhiguli.GetMovingDirection() == Direction::Forward);
 	PrintCarState(Zhiguli);
 	CHECK(Zhiguli.SetGear(0) == true); // переключаемся на нейтраль, едем вперед
 	PrintCarState(Zhiguli);
