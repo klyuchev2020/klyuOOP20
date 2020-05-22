@@ -1,16 +1,20 @@
 ﻿// lab014.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 // crypt -- шифрование и дешифрование бинарного файла
 
-#include <iostream>
+#include <bitset>
 #include <fstream>
+#include <ios>
+#include <iostream>
+#include <limits>
 #include <sstream>
 #include <string>
-#include <ios>
-#include <limits>
-#include <bitset>
 
 constexpr size_t BYTE_SIZE = 256;
-enum Direction { Chipering = 0, Dechipering };
+enum class Direction
+{
+	Encrypt = 0,
+	Decrypt
+};
 
 static int singlebitMask[8] = { 0x0100, 0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000 };
 static int chiperMixbitsOffset[8] = { 6, 6, 6, 5, 5, 13, 13, 10 };
@@ -24,47 +28,36 @@ struct Args
 	char key;
 };
 
-Direction GetDirection(char* directionString)
+Direction GetDirection(const char* directionString)
 {
 	std::string fw("crypt");
 	std::string bw("decrypt");
-	std::istringstream directionStream(directionString);
-	std::string direction;
-	directionStream >> direction;
-	if (direction == fw) return Chipering;
-	if (direction == bw) return Dechipering;
-	throw
-		std::invalid_argument("Unknown conversion type used (must be \"crypt\" or \"decrypt\")");
+
+	if (directionString == fw)
+		return Direction::Encrypt;
+	if (directionString == bw)
+		return Direction::Decrypt;
+	throw std::invalid_argument("Unknown conversion type used (must be \"crypt\" or \"decrypt\")");
 }
 
-char GetKey(char* keyString)
+char GetKey(const char* keyString)
 {
-	std::istringstream keyStream(keyString);
-	short longKey;
-	keyStream >> longKey;
+	short longKey = std::stoi(keyString);
 
-	if (keyStream.fail() || (longKey >= BYTE_SIZE) || (longKey < 0))
+	if ((longKey >= BYTE_SIZE) || (longKey < 0))
 	{
-		throw
-			std::invalid_argument("Last parameter <key> is to be number from 0 to 255");
+		throw std::invalid_argument("Parameter <key> is to be number from 0 to 255");
 	}
-	if (longKey < 128)
-	{
-		return (char)longKey;
-	}
-	else
-	{
-		return (char)(longKey + 2 * std::numeric_limits<char>::min());
-	}
+
+	return static_cast<char>(longKey);
 }
 
 Args ParseCommandLine(int argc, char* argv[])
 {
 	if (argc != 5)
 	{
-		throw
-			std::invalid_argument("Invalid arguments count\n"
-				"Usage: crypt.exe <\"crypt\" | \"dectrypt\"> <input file name> <output file name> <key>");
+		throw std::invalid_argument("Invalid arguments count\n"
+									"Usage: crypt.exe <\"crypt\" | \"dectrypt\"> <input file name> <output file name> <key>");
 	}
 	Args args;
 	args.conversionDir = GetDirection(argv[1]);
@@ -74,26 +67,17 @@ Args ParseCommandLine(int argc, char* argv[])
 	return args;
 }
 
-void PrintArgs(const Args& args)
+char MixBits(char initial, const int* offsetsTable)
 {
-	std::cout << "Args entered: " << (bool)args.conversionDir << " "
-		<< args.inputFileName << " " << args.outputFileName << " "
-		<< args.key << std::endl;
-}
-
-char MixBits(char initial, Direction direction)
-{
-	char chiperMixedBits = 0;
-	char dechiperMixedBits = 0;
+	char mixedBits = 0;
 	int prepared = initial * 0x100;
-	
+
 	for (size_t i = 0; i < 8; ++i)
 	{
-		chiperMixedBits |= (prepared & singlebitMask[i]) >> chiperMixbitsOffset[i];
-		dechiperMixedBits |= (prepared & singlebitMask[i]) >> dechiperMixbitsOffset[i];
+		mixedBits |= (prepared & singlebitMask[i]) >> offsetsTable[i];
 	}
-	
-	return (direction == Chipering) ? chiperMixedBits : dechiperMixedBits;
+
+	return mixedBits;
 }
 
 static char chiperMixedBytes[BYTE_SIZE];
@@ -106,8 +90,8 @@ void SetMixedBytes()
 	char ch = std::numeric_limits<char>::min();
 	for (size_t i = 0; i < BYTE_SIZE; ++i)
 	{
-		chiperMixedBytes[i] = MixBits(ch, Chipering);
-		dechiperMixedBytes[i] = MixBits(ch, Dechipering);
+		chiperMixedBytes[i] = MixBits(ch, chiperMixbitsOffset);
+		dechiperMixedBytes[i] = MixBits(ch, dechiperMixbitsOffset);
 		ch++;
 	}
 }
@@ -134,13 +118,13 @@ void FillConversionTables(char key)
 	}
 }
 
-void ChiperByteStream(std::istream& input, std::ostream& output, char key)
+void ConvertByteStream(std::istream& input, std::ostream& output, char key, const char* conversionTable)
 {
 	char dataByte;
 	char newByte;
 	while (input.get(dataByte))
 	{
-		newByte = chiperConversionTable[dataByte - std::numeric_limits<char>::min()];
+		newByte = conversionTable[dataByte - std::numeric_limits<char>::min()];
 		if (!output.put(newByte))
 		{
 			break;
@@ -148,17 +132,39 @@ void ChiperByteStream(std::istream& input, std::ostream& output, char key)
 	}
 }
 
-void DechiperByteStream(std::istream& input, std::ostream& output, char key)
+void AssignFstreams(std::ifstream& is, std::ofstream& os, const Args& args)
 {
-	char dataByte;
-	char newByte;
-	while (input.get(dataByte))
+	is.open(args.inputFileName, std::ios::binary);
+	if (!is.is_open())
 	{
-		newByte = dechiperConversionTable[dataByte - std::numeric_limits<char>::min()];
-		if (!output.put(newByte))
-		{
-			break;
-		}
+		throw std::ifstream::failure("Failed to open input file");
+	}
+
+	os.open(args.outputFileName, std::ios::binary);
+	if (!os.is_open())
+	{
+		throw std::ofstream::failure("Failed to open output file");
+	}
+}
+
+void Convert(std::ifstream& is, std::ofstream& os, const Args& args)
+{
+	FillConversionTables(args.key);
+
+	const char* table = (args.conversionDir == Direction::Encrypt) ? chiperConversionTable : dechiperConversionTable;
+	ConvertByteStream(is, os, args.key, table);
+}
+
+void CheckFinalFstreams(std::ifstream& is, std::ofstream& os)
+{
+	if (is.bad())
+	{
+		throw std::ifstream::failure("Failed to read input data");
+	}
+
+	if (!os.flush())
+	{
+		throw std::ofstream::failure("Failed to write converted data");
 	}
 }
 
@@ -167,46 +173,13 @@ int main(int argc, char* argv[])
 	try
 	{
 		Args args = ParseCommandLine(argc, argv);
-		
+
 		std::ifstream input;
-		input.open(args.inputFileName, std::ios::binary);
-		if (!input.is_open())
-		{
-			throw
-				std::ifstream::failure("Failed to open input file");
-		}
-
 		std::ofstream output;
-		output.open(args.outputFileName, std::ios::binary);
-		if (!output.is_open())
-		{
-			throw
-				std::ofstream::failure("Failed to open output file");
-		}
-					
-		FillConversionTables(args.key);
-				
-		if (args.conversionDir == Chipering)
-		{
-			ChiperByteStream(input, output, args.key);
-		}
-		else
-		{
-			DechiperByteStream(input, output, args.key);
-		}
-					
-		if (input.bad())
-		{
-			throw
-				std::ifstream::failure("Failed to read input data");
-			
-		}
+		AssignFstreams(input, output, args);
+		Convert(input, output, args);
+		CheckFinalFstreams(input, output);
 
-		if (!output.flush())
-		{
-			throw
-				std::ofstream::failure("Failed to write converted data");
-		}
 		return 0;
 	}
 	catch (std::invalid_argument const& e)
@@ -224,8 +197,4 @@ int main(int argc, char* argv[])
 		std::cout << "Unknown exception occured!" << std::endl;
 		return 3;
 	}
-	
 }
-
-
-

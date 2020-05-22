@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "CLineSegment.h"
 
+const std::string m_type = "LineSegment";
+
 CLineSegment::CLineSegment(CPoint const& startPoint, CPoint const& endPoint,
 	const std::string& outlineColor = std::string("000fff"))
-	: m_type(std::string("LineSegment"))
-	, m_outlineColor(outlineColor)
+	: m_outlineColor(outlineColor)
 	, m_startP(startPoint)
 	, m_endP(endPoint)
 {

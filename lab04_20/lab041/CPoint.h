@@ -1,13 +1,10 @@
 #pragma once
 
-static const double epsilon = 1e-8;
-
 class CPoint
 {
 public:
 	CPoint() = default;
 	CPoint(double x, double y);
-	CPoint(CPoint const& punkt);
 	double GetX() const;
 	double GetY() const;
 

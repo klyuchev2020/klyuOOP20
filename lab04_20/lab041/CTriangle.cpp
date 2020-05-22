@@ -2,10 +2,11 @@
 #include "CTriangle.h"
 #include "CLineSegment.h"
 
+const std::string m_type = "Triangle";
+
 CTriangle::CTriangle(CPoint const& vert1, CPoint const& vert2, CPoint const& vert3,
 	const std::string& outlineColor, const std::string& fillColor)
-	: m_type(std::string("Triangle"))
-	, m_outlineColor(outlineColor)
+	: m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 	, m_vert1(vert1)
 	, m_vert2(vert2)

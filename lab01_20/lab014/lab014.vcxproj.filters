@@ -25,6 +25,7 @@
     <Text Include="SmallTest2.txt" />
     <Text Include="Hello_World72.txt" />
     <Text Include="single1bytes.txt" />
+    <Text Include="alphabet.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test014.bat">

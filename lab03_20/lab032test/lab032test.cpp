@@ -4,6 +4,14 @@
 #include "stdafx.h"
 #include "../lab032/CTokenSeries.h"
 
+bool IsTokenClassified(const std::string& tokenImage, Tkind kind, double val, const std::string& name)
+{
+	std::istringstream image(tokenImage);
+	Token t = GetToken(image);
+
+	return (t.kind == kind && (t.value == val || isnan(val))  && t.name == name);
+}
+
 TEST_CASE("Zero test no concerned calculator works correctly")
 {
 	int i = std::string("zero test") == "zero" + std::string("test");
@@ -12,31 +20,9 @@ TEST_CASE("Zero test no concerned calculator works correctly")
 
 TEST_CASE("Correct tokens are classified well")
 {
-	std::istringstream symbol1("+");
-	Token t1 = GetToken(symbol1);
-
-	CHECK(t1.kind == tKind::Symbol);
-	CHECK(isnan(t1.value));
-	CHECK(t1.name == "+");
-
-	std::istringstream number1("53.4775");
-	Token t2 = GetToken(number1);
-
-	CHECK(t2.kind == tKind::Number);
-	CHECK(t2.value == 53.4775);
-	CHECK(t2.name == "");
-
-	std::istringstream keyword1("printfns");
-	Token t3 = GetToken(keyword1);
-
-	CHECK(t3.kind == tKind::Keyword);
-	CHECK(isnan(t3.value));
-	CHECK(t3.name == "printfns");
-
-	std::istringstream identor1("r23_var");
-	Token t4 = GetToken(identor1);
-
-	CHECK(t4.kind == tKind::Identor);
-	CHECK(isnan(t4.value));
-	CHECK(t4.name == "r23_var");
+	CHECK(IsTokenClassified("+", Tkind::Symbol, undefined, "+"));
+	CHECK(IsTokenClassified("54.023", Tkind::Number, 54.023, ""));
+	CHECK(IsTokenClassified("printfns", Tkind::Keyword, undefined, "printfns"));
+	CHECK(IsTokenClassified("r23_var_4u5", Tkind::Identor, undefined, "r23_var_4u5"));
+	CHECK(IsTokenClassified("-.98", Tkind::Number, -.98, ""));
 }

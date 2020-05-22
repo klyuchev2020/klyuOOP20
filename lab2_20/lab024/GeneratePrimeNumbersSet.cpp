@@ -16,7 +16,7 @@ std::vector<bool> SieveResult(size_t bound) // просеивает позиции по методу реше
 				result[i] = false;
 			}
 			/*
-			этот код находит следующее постое число. Ќо тогда и просеивание не нужно
+			этот код находит следующее простое число. Ќо тогда и просеивание не нужно
 			std::vector<bool>::iterator startFindNextPrime = result.begin() + lastPrime + 1;
 			std::vector<bool>::iterator primePosition = std::find(startFindNextPrime, result.end(), true);
 			lastPrime += std::distance(startFindNextPrime, primePosition) + 1;

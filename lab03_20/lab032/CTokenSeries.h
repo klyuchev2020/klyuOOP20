@@ -2,45 +2,47 @@
 
 #include "stdafx.h"
 
-enum class tKind
+static double undefined = std::nan("");
+
+enum class Tkind
 {
-	Symbol = 0,
-    Number,
-	Identor,
-	Keyword,
+	Symbol = 0, // одиночный символ
+    Number,     // число double
+	Identor,    // идентификатор
+	Keyword,    // ключевое слово калькулятора
 };
 
 struct Token
 {
-	tKind kind;
+	Tkind kind;
 	double value;
 	std::string name;
 
 	Token()
-		: kind(tKind::Number)
+		: kind(Tkind::Number)
 		, value(0.0)
 		, name("")
 	{
 
 	}
 	
-	Token(tKind k)
+	Token(Tkind k)
 		: kind(k)
-		, value(std::nan(""))
+		, value(undefined)
 		, name("")
 	{
 	}
 
-	Token(tKind k, double val)
+	Token(Tkind k, double val)
 		: kind(k)
 		, value(val)
 		, name("")
 	{
 	}
 
-	Token(tKind k, std::string n)
+	Token(Tkind k, std::string n)
 		: kind(k)
-		, value(std::nan(""))
+		, value(undefined)
 		, name(n)
 	{
 	}

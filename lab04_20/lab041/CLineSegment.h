@@ -17,7 +17,7 @@ public:
 	CPoint GetRadVector() const;
 
 private:
-	std::string m_type;
+	static std::string m_type;
 	std::string m_outlineColor;
 	CPoint m_startP;
 	CPoint m_endP;

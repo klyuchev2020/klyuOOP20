@@ -18,7 +18,7 @@ public:
 	CPoint GetVertex3() const;
 
 private:
-	std::string m_type;
+	static std::string m_type;
 	std::string m_outlineColor;
 	std::string m_fillColor;
 	CPoint m_vert1;

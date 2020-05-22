@@ -1,15 +1,11 @@
 #include "stdafx.h"
 #include "CPoint.h"
 
+static const double epsilon = 1e-8;
+
 CPoint::CPoint(double x, double y)
 	: m_x(x)
 	, m_y(y)
-{
-}
-
-CPoint::CPoint(CPoint const& punkt)
-	: m_x(punkt.m_x)
-	, m_y(punkt.m_y)
 {
 }
 

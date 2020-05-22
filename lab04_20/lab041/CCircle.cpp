@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "CCircle.h"
 
+const std::string m_type = "Circle";
+static const double PI = 3.141592653;
+
 CCircle::CCircle(CPoint const& center, double radius,
 	const std::string& outlineColor, const std::string& fillColor)
-	: m_type(std::string("Circle"))
-	, m_outlineColor(outlineColor)
+	: m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 	, m_center(center)
 {
@@ -13,12 +15,12 @@ CCircle::CCircle(CPoint const& center, double radius,
 
 double CCircle::GetArea() const
 {
-	return atan(1.0) * 4.0 * pow(m_radius, 2);
+	return PI * pow(m_radius, 2);
 }
 
 double CCircle::GetPerimeter() const
 {
-	return atan(1.0) * 8.0 * m_radius;
+	return 2.0 * PI * m_radius;
 }
 
 std::string CCircle::GetOutlineColor() const

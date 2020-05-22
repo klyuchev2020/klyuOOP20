@@ -170,6 +170,7 @@
     <ClCompile Include="lab014.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="alphabet.txt" />
     <Text Include="Hello_World72.txt" />
     <Text Include="single1bytes.txt" />
     <Text Include="SmallTest(10bytes).txt" />

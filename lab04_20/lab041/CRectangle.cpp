@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "CRectangle.h"
 
+const std::string m_type = "Rectangle";
+
 CRectangle::CRectangle(CPoint const& leftTop, double width, double height,
 	const std::string& outlineColor, const std::string& fillColor)
-	: m_type(std::string("Rectangle"))
-	, m_outlineColor(outlineColor)
+	: m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 	, m_leftTop(leftTop)
 {

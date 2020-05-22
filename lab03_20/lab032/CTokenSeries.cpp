@@ -8,11 +8,11 @@ Token GetToken(std::istream& is)
 	switch (ch)
 	{
 	case '+':
-	case '-':
 	case '*':
 	case '/':
 	case '=':
-		return Token(tKind::Symbol, std::string(1, ch));
+		return Token(Tkind::Symbol, std::string(1, ch));
+	case '-':
 	case '.':
 	case '0':
 	case '1':
@@ -28,7 +28,15 @@ Token GetToken(std::istream& is)
 		is.unget();
 		double val;
 		is >> val;
-		return Token(tKind::Number, val);
+		if (std::cin.fail())
+		{
+			std::cin.clear();
+			return Token(Tkind::Symbol, "-");
+		}
+		else
+        {
+		    return Token(Tkind::Number, val);
+		}
 	}
 	default:
 		if (isalpha(ch))
@@ -42,16 +50,33 @@ Token GetToken(std::istream& is)
 			is.unget();
 			if (nameStr == "var" || nameStr == "let" || nameStr == "fn"
 				|| nameStr == "print" || nameStr == "printvars" || nameStr == "printfns")
-				return Token(tKind::Keyword, nameStr);
-			return Token(tKind::Identor, nameStr);
+				return Token(Tkind::Keyword, nameStr);
+			return Token(Tkind::Identor, nameStr);
 		}
 		throw std::invalid_argument("Bad token");
 	}
 }
 
+std::string GetTokenType(const Token& t)
+{
+	switch (t.kind)
+	{
+	case Tkind::Symbol:
+		return "Symbol";
+	case Tkind::Number:
+		return "Number";
+	case Tkind::Identor:
+		return "Identor";
+	case Tkind::Keyword:
+		return "Keyword";
+	default:
+		return "Unknown token";
+	}
+}
+
 void PrintTokenTest(const Token& t)
 {
-	if (t.kind == tKind::Number)
+	if (t.kind == Tkind::Number)
 	{
 		std::cout << "Token image:" << t.value;
 	}
@@ -59,5 +84,5 @@ void PrintTokenTest(const Token& t)
 	{
 		std::cout << "Token image: " << t.name;
 	}
-	std::cout << "[ kind = " << int(t.kind) << ", value = " << t.value << ", name = " << t.name << std::endl;
+	std::cout << "  [ kind = " << GetTokenType(t) << ", value = " << t.value << ", name = " << t.name << " ]" << std::endl;
 }

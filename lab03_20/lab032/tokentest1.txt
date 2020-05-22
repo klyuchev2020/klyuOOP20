@@ -1,0 +1,6 @@
+var x1_3
+let x1_3 = -0.98
+print x1_3
+fn f1 = x1_3
+fn f2 = f1 + f1
+fn f_33 = f_n2 - x7_89
