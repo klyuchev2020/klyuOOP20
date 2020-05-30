@@ -40,17 +40,31 @@ struct Token
 	{
 	}
 
-	Token(Tkind k, std::string n)
+	Token(Tkind k, const std::string& n)
 		: kind(k)
 		, value(undefined)
 		, name(n)
 	{
 	}
+
+	Token(Tkind k, double val, const std::string& n)
+		: kind(k)
+		, value(val)
+		, name(n)
+	{
+	}
 };
 
-Token GetToken(std::istream& is);
+
 void PrintTokenTest(const Token& t);
 
-class CTokenSeries
+class CTStream
 {
+public:
+	CTStream(std::istream& is = std::cin);
+
+	Token GetToken();
+
+private:
+	std::istream& m_tstream;
 };

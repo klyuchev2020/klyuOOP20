@@ -1,0 +1,53 @@
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 1x^4 + 2x^3 + 3x^2 + 4x + 5 = 0
+resolventa root -1.83551
+Attention! Equation has no roots! (from special case)
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 1x^4 + 0x^3 + -2x^2 + 0x + -3 = 0
+resolventa root -1
+2 distinct roots: 
+-1.7320508075688772
+1.7320508075688772
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 1.0000000000000000x^4 + 0.0000000000000000x^3 + 0.0000000000000000x^2 + 0.0000000000000000x + 0.0000000000000000 = 0
+resolventa root 0.0000000000000000
+1 distinct roots: 
+0.0000000000000000
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 1.0000000000000000x^4 + 0.0000000000000000x^3 + -30.0000000000000000x^2 + 2.0000000000000000x + 1.0000000000000000 = 0
+resolventa root 1.0154899189617566
+4 distinct roots: 
+-5.5072847131485645
+-0.1523071306086785
+0.2191324327130677
+5.4404594110441753
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 16.0000000000000000x^4 + 96.0000000000000000x^3 + 216.0000000000000000x^2 + 216.0000000000000000x + 81.0000000000000000 = 0
+resolventa root 0.0000000000000000
+1 distinct roots: 
+-1.5000000000000000
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 0.0000000000000000x^4 + 1.0000000000000000x^3 + 0.0000000000000000x^2 + 0.0000000000000000x + 0.0000000000000000 = 0
+Error: Leading coefficient must not be equal to zero!
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 1.0000000000000000x^4 + -3.0000000000000000x^3 + 4.0000000000000000x^2 + -10.0000000000000000x + 1.0000000000000000 = 0
+resolventa root 1.2995478215896124
+2 distinct roots: 
+0.1040006904184024
+2.8010244492781173
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0
+Equation: 1.0000000000000000x^4 + 0.0000000000000000x^3 + -4.0000000000000000x^2 + 4.0000000000000000x + -1.0000000000000000 = 0
+resolventa root 0.0000000000000000
+3 distinct roots: 
+-2.4142135623730949
+0.4142135623730951
+1.0000000000000000
+
+Enter coeffs a, b, c, d, e in equation ax^4 + bx^3 + cx^2 + dx + e = 0

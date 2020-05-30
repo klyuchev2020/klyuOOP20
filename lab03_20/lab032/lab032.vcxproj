@@ -151,11 +151,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CTokenSeries.cpp" />
+    <ClCompile Include="CFunction.cpp" />
+    <ClCompile Include="CParser.cpp" />
+    <ClCompile Include="CTStream.cpp" />
+    <ClCompile Include="CVariables.cpp" />
     <ClCompile Include="lab032.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CTokenSeries.h" />
+    <ClInclude Include="CFunction.h" />
+    <ClInclude Include="CParser.h" />
+    <ClInclude Include="CTStream.h" />
+    <ClInclude Include="CVariables.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

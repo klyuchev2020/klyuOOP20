@@ -1,9 +1,14 @@
-#include "CTokenSeries.h"
+#include "CTStream.h"
 
-Token GetToken(std::istream& is)
+CTStream::CTStream(std::istream& is)
+	: m_tstream(is)
+{
+}
+
+Token CTStream::GetToken()
 {
 	char ch;
-	is >> ch;
+	m_tstream >> ch;
 
 	switch (ch)
 	{
@@ -25,9 +30,9 @@ Token GetToken(std::istream& is)
 	case '8':
 	case '9':
 	{
-		is.unget();
+		m_tstream.unget();
 		double val;
-		is >> val;
+		m_tstream >> val;
 		if (std::cin.fail())
 		{
 			std::cin.clear();
@@ -43,11 +48,11 @@ Token GetToken(std::istream& is)
 		{
 			std::string nameStr;
 			nameStr += ch;
-			while (is.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_'))
+			while (m_tstream.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_'))
 			{
 				nameStr += ch;
 			}
-			is.unget();
+			m_tstream.unget();
 			if (nameStr == "var" || nameStr == "let" || nameStr == "fn"
 				|| nameStr == "print" || nameStr == "printvars" || nameStr == "printfns")
 				return Token(Tkind::Keyword, nameStr);
@@ -86,3 +91,4 @@ void PrintTokenTest(const Token& t)
 	}
 	std::cout << "  [ kind = " << GetTokenType(t) << ", value = " << t.value << ", name = " << t.name << " ]" << std::endl;
 }
+

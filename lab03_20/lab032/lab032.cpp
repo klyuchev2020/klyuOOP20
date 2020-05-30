@@ -2,18 +2,19 @@
 //
 
 #include "stdafx.h"
-#include "CTokenSeries.h"
+#include "CTStream.h"
 
 int main()
 {
 	try
 	{
 		std::cout << "Calculator driver\n";
+		CTStream tstream;
 		Token token;
 
 		while (std::cin)
 		{
-			token = GetToken(std::cin);
+			token = tstream.GetToken();
 			PrintTokenTest(token);
 		}
 	}
