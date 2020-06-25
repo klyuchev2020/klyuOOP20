@@ -151,17 +151,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CFunction.cpp" />
+    <ClCompile Include="CError.cpp" />
     <ClCompile Include="CParser.cpp" />
     <ClCompile Include="CTStream.cpp" />
-    <ClCompile Include="CVariables.cpp" />
+    <ClCompile Include="CVars.cpp" />
     <ClCompile Include="lab032.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CFunction.h" />
+    <ClInclude Include="CError.h" />
     <ClInclude Include="CParser.h" />
     <ClInclude Include="CTStream.h" />
-    <ClInclude Include="CVariables.h" />
+    <ClInclude Include="CVars.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

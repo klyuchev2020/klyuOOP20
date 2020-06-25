@@ -10,6 +10,7 @@ enum class Tkind
     Number,     // число double
 	Identor,    // идентификатор
 	Keyword,    // ключевое слово калькулятора
+	End,        // конец данных
 };
 
 struct Token
@@ -23,7 +24,6 @@ struct Token
 		, value(0.0)
 		, name("")
 	{
-
 	}
 	
 	Token(Tkind k)
@@ -64,7 +64,12 @@ public:
 	CTStream(std::istream& is = std::cin);
 
 	Token GetToken();
+	void PutBack(Token tok);
+	void Skip();
+	bool IsEmpty() const;
 
 private:
 	std::istream& m_tstream;
+	Token m_buffer;
+	bool m_buffull;
 };

@@ -18,24 +18,21 @@
     <ClCompile Include="lab032.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CVariables.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="CParser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="CTStream.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CFunction.cpp">
+    <ClCompile Include="CVars.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CError.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="CVariables.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="CParser.h">
@@ -44,7 +41,10 @@
     <ClInclude Include="CTStream.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CFunction.h">
+    <ClInclude Include="CVars.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="CError.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

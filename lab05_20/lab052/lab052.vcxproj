@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B00F057E-6F93-4C15-86EE-CDF057BA0603}</ProjectGuid>
+    <ProjectGuid>{96DCE837-7777-467B-B63C-1DFB22C815CA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>lab032test</RootNamespace>
+    <RootNamespace>lab052</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -96,9 +96,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>"$(TargetPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,9 +111,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>"$(TargetPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -136,9 +130,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>"$(TargetPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -158,28 +149,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>"$(TargetPath)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\lab032\CError.cpp" />
-    <ClCompile Include="..\lab032\CParser.cpp" />
-    <ClCompile Include="..\lab032\CTStream.cpp" />
-    <ClCompile Include="..\lab032\CVars.cpp" />
-    <ClCompile Include="lab032test.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CMyString.cpp" />
+    <ClCompile Include="lab052.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\lab032\CError.h" />
-    <ClInclude Include="..\lab032\CParser.h" />
-    <ClInclude Include="..\lab032\CTStream.h" />
-    <ClInclude Include="..\lab032\CVars.h" />
+    <ClInclude Include="CMyString.h" />
     <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="fib65Test.txt" />
-    <Text Include="HeronTest.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

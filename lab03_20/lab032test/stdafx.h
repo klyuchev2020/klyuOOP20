@@ -8,5 +8,6 @@
 #include <vector>
 #include <cmath>
 #include <map>
+#include <set>
 
 #include "../../catch/catch.hpp"

@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B00F057E-6F93-4C15-86EE-CDF057BA0603}</ProjectGuid>
+    <ProjectGuid>{128A7780-C20F-4C92-BEA9-51A6AF2F1250}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>lab032test</RootNamespace>
+    <RootNamespace>lab052test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -163,23 +163,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\lab032\CError.cpp" />
-    <ClCompile Include="..\lab032\CParser.cpp" />
-    <ClCompile Include="..\lab032\CTStream.cpp" />
-    <ClCompile Include="..\lab032\CVars.cpp" />
-    <ClCompile Include="lab032test.cpp" />
+    <ClCompile Include="..\lab052\CMyString.cpp" />
+    <ClCompile Include="lab052test.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\lab032\CError.h" />
-    <ClInclude Include="..\lab032\CParser.h" />
-    <ClInclude Include="..\lab032\CTStream.h" />
-    <ClInclude Include="..\lab032\CVars.h" />
+    <ClInclude Include="..\lab052\CMyString.h" />
     <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="fib65Test.txt" />
-    <Text Include="HeronTest.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

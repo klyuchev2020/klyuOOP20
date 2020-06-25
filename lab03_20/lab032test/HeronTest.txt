@@ -1,0 +1,19 @@
+var a
+var b
+var c
+fn aPlusb = a + b
+fn aPlusbPlusc = aPlusb + c
+let two = 2
+fn p = aPlusbPlusc/two
+fn pMinusa = p - a
+fn pMinusb = p - b
+fn pMinusc = p - c
+fn firstTwoProd = p*pMinusa
+fn secondTwoProd = pMinusb*pMinusc
+fn prodOfFour = firstTwoProd*secondTwoProd
+let a = 3.0
+let b = 4.0
+let c = 5
+printvars
+print prodOfFour
+

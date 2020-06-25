@@ -1,0 +1,17 @@
+var x0
+var x1
+fn f0 = x0
+fn f1 = x1
+fn f2 = f1 + f0
+fn f3 = f2 + f1
+fn f4 = f3 + f2
+fn f5 = f4 + f3
+fn f6 = f5 + f4
+fn f7 = f6 + f5
+fn f8 = f7 + f6
+fn f9 = f8 + f7
+fn f10 = f9 + f8
+let x0 = 1
+let x1 = 1
+print f9
+print f10

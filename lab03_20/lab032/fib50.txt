@@ -1,0 +1,57 @@
+var x0
+var x1
+fn f0 = x0
+fn f1 = x1
+fn f2 = f1 + f0
+fn f3 = f2 + f1
+fn f4 = f3 + f2
+fn f5 = f4 + f3
+fn f6 = f5 + f4
+fn f7 = f6 + f5
+fn f8 = f7 + f6
+fn f9 = f8 + f7
+fn f10 = f9 + f8
+fn f11 = f10 + f9
+fn f12 = f11 + f10
+fn f13 = f12 + f11
+fn f14 = f13 + f12
+fn f15 = f14 + f13
+fn f16 = f15 + f14
+fn f17 = f16 + f15
+fn f18 = f17 + f16
+fn f19 = f18 + f17
+fn f20 = f19 + f18
+fn f21 = f20 + f19
+fn f22 = f21 + f20
+fn f23 = f22 + f21
+fn f24 = f23 + f22
+fn f25 = f24 + f23
+fn f26 = f25 + f24
+fn f27 = f26 + f25
+fn f28 = f27 + f26
+fn f29 = f28 + f27
+fn f30 = f29 + f28
+fn f31 = f30 + f29
+fn f32 = f31 + f30
+fn f33 = f32 + f31
+fn f34 = f33 + f32
+fn f35 = f34 + f33
+fn f36 = f35 + f34
+fn f37 = f36 + f35
+fn f38 = f37 + f36
+fn f39 = f38 + f37
+fn f40 = f39 + f38
+fn f41 = f40 + f39
+fn f42 = f41 + f40
+fn f43 = f42 + f41
+fn f44 = f43 + f42
+fn f45 = f44 + f43
+fn f46 = f45 + f44
+fn f47 = f46 + f45
+fn f48 = f47 + f46
+fn f49 = f48 + f47
+fn f50 = f49 + f48
+let x0 = 0
+let x1 = 1
+print f49
+print f50
