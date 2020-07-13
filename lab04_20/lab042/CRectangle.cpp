@@ -4,7 +4,7 @@
 const std::string m_type = "Rectangle";
 
 CRectangle::CRectangle(CPoint const& leftTop, double width, double height,
-	const std::string& outlineColor, const std::string& fillColor)
+	const std::uint32_t outlineColor, const std::uint32_t fillColor)
 	: m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 	, m_leftTop(leftTop)
@@ -23,12 +23,12 @@ double CRectangle::GetPerimeter() const
 	return 2.0 * (m_width + m_height);
 }
 
-std::string CRectangle::GetOutlineColor() const
+std::uint32_t CRectangle::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-std::string CRectangle::GetFillcolor() const
+std::uint32_t CRectangle::GetFillColor() const
 {
 	return m_fillColor;
 }
@@ -70,4 +70,18 @@ std::string CRectangle::ToString() const
 		 << "\tArea = " << GetArea() << std::endl;
 
 	return strm.str();
+}
+
+void CRectangle::Draw(ICanvas& canvas) const
+{
+	CPoint lt = m_leftTop;
+	CPoint rb = GetRightBottom();
+	CPoint lb = CPoint(lt.GetX(), rb.GetY());
+	CPoint rt = CPoint(rb.GetX(), lt.GetY());
+	std::vector<CPoint> vertices = { lt, lb, rb, rt };
+	canvas.FillPolygon(vertices, m_fillColor);
+	canvas.DrawLine(lt, lb, m_outlineColor);
+	canvas.DrawLine(lb, rb, m_outlineColor);
+	canvas.DrawLine(rb, rt, m_outlineColor);
+	canvas.DrawLine(rt, lt, m_outlineColor);
 }

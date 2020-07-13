@@ -5,7 +5,7 @@
 const std::string m_type = "Triangle";
 
 CTriangle::CTriangle(CPoint const& vert1, CPoint const& vert2, CPoint const& vert3,
-	const std::string& outlineColor, const std::string& fillColor)
+	const std::uint32_t outlineColor, const std::uint32_t fillColor)
 	: m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 	, m_vert1(vert1)
@@ -29,12 +29,12 @@ CPoint CTriangle::GetVertex3() const
 	return m_vert3;
 }
 
-std::string CTriangle::GetOutlineColor() const
+std::uint32_t CTriangle::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-std::string CTriangle::GetFillcolor() const
+std::uint32_t CTriangle::GetFillColor() const
 {
 	return m_fillColor;
 }
@@ -46,8 +46,8 @@ double CTriangle::GetPerimeter() const
 
 double CTriangle::GetArea() const
 {
-	CLineSegment side2(m_vert1, m_vert2, "");
-	CLineSegment side3(m_vert1, m_vert3, "");
+	CLineSegment side2(m_vert1, m_vert2);
+	CLineSegment side3(m_vert1, m_vert3);
 	CPoint side2Rad = side2.GetRadVector();
 	CPoint side3Rad = side3.GetRadVector();
 
@@ -68,4 +68,14 @@ std::string CTriangle::ToString() const
 		 << "\tArea = " << GetArea() << std::endl;
 
 	return strm.str();
+}
+
+
+void CTriangle::Draw(ICanvas& canvas) const
+{
+	std::vector<CPoint> vertices = { m_vert1, m_vert2, m_vert3 };
+	canvas.FillPolygon(vertices, m_fillColor);
+	canvas.DrawLine(m_vert1, m_vert2, m_outlineColor);
+	canvas.DrawLine(m_vert2, m_vert3, m_outlineColor);
+	canvas.DrawLine(m_vert3, m_vert1, m_outlineColor);
 }

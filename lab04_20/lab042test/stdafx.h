@@ -10,3 +10,6 @@
 #include <string>
 #include <tchar.h>
 #include <vector>
+
+#include "../../catch/catch.hpp"
+#include "../../fakeit/fakeit.hpp"

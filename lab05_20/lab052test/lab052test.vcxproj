@@ -164,12 +164,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lab052\CMyString.cpp" />
+    <ClCompile Include="..\lab052\CMystrIterator.cpp" />
     <ClCompile Include="lab052test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lab052\CMyString.h" />
+    <ClInclude Include="..\lab052\CMystrIterator.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,7 +5,7 @@ const std::string m_type = "Circle";
 static const double PI = 3.141592653;
 
 CCircle::CCircle(CPoint const& center, double radius,
-	const std::string& outlineColor, const std::string& fillColor)
+	const std::uint32_t outlineColor, const std::uint32_t fillColor)
 	: m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 	, m_center(center)
@@ -23,12 +23,12 @@ double CCircle::GetPerimeter() const
 	return 2.0 * PI * m_radius;
 }
 
-std::string CCircle::GetOutlineColor() const
+std::uint32_t CCircle::GetOutlineColor() const
 {
 	return m_outlineColor;
 }
 
-std::string CCircle::GetFillcolor() const
+std::uint32_t CCircle::GetFillColor() const
 {
 	return m_fillColor;
 }
@@ -56,4 +56,10 @@ std::string CCircle::ToString() const
 		 << "\tArea = " << GetArea() << std::endl;
 
 	return strm.str();
+}
+
+void CCircle::Draw(ICanvas& canvas) const
+{
+	canvas.DrawCircle(m_center, m_radius, m_outlineColor);
+	canvas.FillCircle(m_center, m_radius, m_fillColor);	
 }

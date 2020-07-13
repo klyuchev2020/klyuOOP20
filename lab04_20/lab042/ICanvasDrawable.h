@@ -6,5 +6,6 @@ class ICanvasDrawable // то, что можно нарисовать на холсте
 {
 public:
 	virtual ~ICanvasDrawable(){};
-	virtual void Draw(ICanvas& canvas) = 0;
+	virtual std::string ToString() const = 0; // описание фигуры
+	virtual void Draw(ICanvas& canvas) const = 0;
 };

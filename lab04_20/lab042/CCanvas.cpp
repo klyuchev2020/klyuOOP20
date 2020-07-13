@@ -1,5 +1,6 @@
 #include "CCanvas.h"
 #include "CPoint.h"
+#include "ICanvasDrawable.h"
 
 const double PI = 3.14159263;
 
@@ -13,35 +14,40 @@ CCanvas::CCanvas(size_t sizeX, size_t sizeY, const std::string& title)
 
 
 void CCanvas::DrawLine(CPoint const& startPoint, CPoint const& endPoint,
-	const std::string& outlineColor)
+	const std::uint32_t outlineColor)
 {
-	float width = CalcDistance(startPoint, endPoint);
-	float height = 1.0f;
-	float angle = std::atan2(endPoint.GetY() - startPoint.GetY(), endPoint.GetX() - startPoint.GetX());
+	const float width = CalcDistance(startPoint, endPoint);
+	const float height = 1.0f;
+	const float angle = std::atan2(endPoint.GetY() - startPoint.GetY(), endPoint.GetX() - startPoint.GetX());
+
 	sf::Vector2f size(width, height);
 	sf::RectangleShape line(size);
+
 	line.setPosition(sf::Vector2f(float(startPoint.GetX()), float(startPoint.GetY())));
 	line.rotate(angle * 180/PI);
-	line.setFillColor(sf::Color(0, 0xFF, 0xFF));
+	line.setFillColor(sf::Color(outlineColor));
+	
 	m_window.draw(line);
 }
 
 void CCanvas::DrawCircle(CPoint const& centerPoint, double radius,
-	const std::string& outlineColor)
+	const std::uint32_t outlineColor)
 {
 	sf::CircleShape circle(radius, 200);
-	circle.setPosition(float(centerPoint.GetX()), float(centerPoint.GetY()));
-	circle.setFillColor(sf::Color(0, 0, 0));
+
+	circle.setPosition(float(centerPoint.GetX() - radius), float(centerPoint.GetY() - radius));
+	circle.setFillColor(sf::Color(0x000000FF));
 	circle.setOutlineThickness(2.0f);
-	circle.setOutlineColor(sf::Color(0xFF, 0xFF, 0xFF));
+	circle.setOutlineColor(sf::Color(outlineColor));
 	
 	m_window.draw(circle);
 }
 
 void CCanvas::FillPolygon(std::vector<CPoint> const& points,
-	const std::string& fillColor)
+	const std::uint32_t fillColor)
 {
 	size_t pointsNumber = points.size();
+
 	if (pointsNumber < 3)
 	{
 		return;
@@ -54,22 +60,32 @@ void CCanvas::FillPolygon(std::vector<CPoint> const& points,
 		{
 			polygon.setPoint(n, sf::Vector2f(float(points[n].GetX()), float(points[n].GetY())));
 		}
-		polygon.setFillColor(sf::Color::Red);
+		polygon.setFillColor(sf::Color(fillColor));
+		
 		m_window.draw(polygon);
 	}
-
 }
 
 void CCanvas::FillCircle(CPoint const& centerPoint, double radius,
-	const std::string& fillColor)
+	const std::uint32_t fillColor)
 {
 	sf::CircleShape circle(radius, 200);
-	circle.setPosition(float(centerPoint.GetX()), float(centerPoint.GetY()));
-	circle.setFillColor(sf::Color::Green);
-	circle.setOutlineThickness(2.0f);
-	circle.setOutlineColor(sf::Color(0xFF, 0xFF, 0xFF));
+
+	circle.setPosition(float(centerPoint.GetX() - radius), float(centerPoint.GetY() - radius));
+	circle.setFillColor(sf::Color(fillColor));
+	circle.setOutlineThickness(0.0f);
+	circle.setOutlineColor(sf::Color(fillColor));
 
 	m_window.draw(circle);
+}
+
+void CCanvas::SetPicture(std::vector<std::unique_ptr<ICanvasDrawable>>& prims)
+{
+	for (size_t i = 0; i < prims.size(); ++i)
+	{
+		m_prims.push_back(std::move(prims[i]));
+		std::cout << m_prims[i]->ToString() << std::endl;
+	}
 }
 
 void CCanvas::Display()
@@ -85,16 +101,10 @@ void CCanvas::Display()
 			}
 		}
 		m_window.clear();
-		DrawLine(CPoint(10.0, 200.0), CPoint(100.0, 10.0), "");
-		DrawCircle(CPoint(50.0, 150.0), 100.0, "");
-		std::vector<CPoint> pts = { 
-			CPoint(10.0f, 20.0f), 
-			CPoint(100.0f, 150.0f), 
-			CPoint(140.0f, 30.0f), 
-			CPoint(120.0f, 50.0f) };
-		FillPolygon(pts, "");
-		FillCircle(CPoint(150.0, 250.0), 70.0, "");
-
-	    m_window.display();
+		for (const auto& primitive: m_prims)
+		{
+			primitive->Draw(*this);
+		}
+		m_window.display();
 	}
 }

@@ -22,5 +22,12 @@ int main()
 
 	std::cout << test2 << std::endl;
 
+	CRational toRead;
+
+	std::cin >> toRead;
+
+	std::cout << toRead << std::endl;
+
+
 	return 0;
 }

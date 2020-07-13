@@ -184,9 +184,16 @@ std::istream& operator>>(std::istream& istrm, CRational& ratio)
 {
 	int numerator = 0;
 	int denominator = 1;
-	if ((istrm >> numerator) && (istrm.get() == '/') && (istrm >> denominator))
+	if (istrm >> numerator)
 	{
-		ratio = CRational(numerator, denominator);
+		if ((istrm.get() == '/') && (istrm >> denominator))
+        {
+		     ratio = CRational(numerator, denominator);
+		}
+		else
+		{
+			ratio = CRational(numerator, 1);
+		}
 	}
 	return istrm;
 }
