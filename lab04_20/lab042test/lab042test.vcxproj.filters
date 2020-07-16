@@ -24,9 +24,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\lab042\CCanvas.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\lab042\CCircle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -42,12 +39,12 @@
     <ClCompile Include="..\lab042\CTriangle.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="CCanvasLogger.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lab042\CCanvas.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\lab042\CCircle.h">
@@ -75,6 +72,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\lab042\ISolidShape.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="CCanvasLogger.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

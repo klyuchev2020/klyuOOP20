@@ -171,18 +171,17 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\lab042\CCanvas.cpp" />
     <ClCompile Include="..\lab042\CCircle.cpp" />
     <ClCompile Include="..\lab042\CLineSegment.cpp" />
     <ClCompile Include="..\lab042\CPoint.cpp" />
     <ClCompile Include="..\lab042\CRectangle.cpp" />
     <ClCompile Include="..\lab042\CTriangle.cpp" />
+    <ClCompile Include="CCanvasLogger.cpp" />
     <ClCompile Include="lab042test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\lab042\CCanvas.h" />
     <ClInclude Include="..\lab042\CCircle.h" />
     <ClInclude Include="..\lab042\CLineSegment.h" />
     <ClInclude Include="..\lab042\CPoint.h" />
@@ -192,6 +191,7 @@
     <ClInclude Include="..\lab042\ICanvasDrawable.h" />
     <ClInclude Include="..\lab042\IShape.h" />
     <ClInclude Include="..\lab042\ISolidShape.h" />
+    <ClInclude Include="CCanvasLogger.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

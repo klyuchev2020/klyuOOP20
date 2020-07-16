@@ -143,7 +143,7 @@ int main()
 
 	if (shapesSequence.size() != 0)
 	{
-		CCanvas canvas(500, 400, "test canvas");
+		CCanvas canvas(500, 500, "My canvas");
 		canvas.SetPicture(shapesSequence);
 		canvas.Display();
 	}

@@ -7,7 +7,7 @@
 class CCanvas : public ICanvas
 {
 public:
-	CCanvas(size_t sizeX, size_t sizeY, const std::string& title);
+	CCanvas(unsigned int sizeX, unsigned int sizeY, const std::string& title);
 	void DrawLine(CPoint const& startPoint, CPoint const& endPoint,
 		const std::uint32_t outlineColor = 0xFFFFFFFF);
 	void DrawCircle(CPoint const& centerPoint, double radius,
