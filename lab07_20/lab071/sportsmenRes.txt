@@ -1,0 +1,3 @@
+less
+greater or equal cchar
+Maximal = 24

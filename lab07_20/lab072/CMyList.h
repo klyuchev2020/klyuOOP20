@@ -2,15 +2,15 @@
 
 struct NBase // реализует св€зность списка и не несет данных
 {
-	NBase* next; 
-	NBase* prev; 
-	
+	NBase* next;
+	NBase* prev;
+
 	NBase()
 		: next(this)
 		, prev(this)
 	{
 	}
-	
+
 	NBase(NBase* nextNode, NBase* prevNode)
 		: next(nextNode)
 		, prev(prevNode)
@@ -18,38 +18,33 @@ struct NBase // реализует св€зность списка и не несет данных
 		prevNode->next = this;
 		nextNode->prev = this;
 	}
-	
+
 	virtual ~NBase()
 	{
 		prev->next = next;
 		next->prev = prev;
 	}
+	
 };
-
 
 template <class T>
 struct Node : public NBase
 {
-	T value; 
-	
+	T value;
+
 	Node()
 		: NBase()
 	{
 	}
-	
+
 	Node(NBase* nextNode, NBase* prevNode, const T& nodeValue)
 		: NBase(nextNode, prevNode)
 		, value(nodeValue)
 	{
 	}
 
-	~Node()
-	{
-		std::cout << "Node dtor done with next " << size_t(next) << " and prev " << size_t(prev) << std::endl;
-	}
 };
 
-// шаблонный класс итератора двусв€зного списка
 template <class ValueType,
 	class Pointer = ValueType*, class Reference = ValueType&>
 class BasicIterator
@@ -62,136 +57,363 @@ public:
 	using node = Node<value_type>;
 
 	BasicIterator()
-		: data_(0)
+		: m_nodePtr(nullptr)
 	{
 	}
-	BasicIterator(node_base* data)
-		: data_(data)
+
+	BasicIterator(node_base* nodePtr)
+		: m_nodePtr(nodePtr)
 	{
 	}
-	// приведение к типу node дл€ реализации вставки элемента
-	// (допущение дл€ упрощени€)
-	operator node*() { return (node*)data_; }
+
+	operator node*() // оператор преобразовани€, вспомогательный
+	{
+		return static_cast<node*>(m_nodePtr);
+	}
+
 	BasicIterator& operator++()
 	{
-		data_ = data_->next;
+		m_nodePtr = m_nodePtr->next;
 		return *this;
 	}
+
 	BasicIterator operator++(int)
 	{
-		BasicIterator result(data_);
-		data_ = data_->next;
+		BasicIterator result(m_nodePtr);
+		m_nodePtr = m_nodePtr->next;
 		return result;
 	}
+
 	BasicIterator& operator--()
 	{
-		data_ = data_->prev;
+		m_nodePtr = m_nodePtr->prev;
 		return *this;
 	}
+
 	BasicIterator operator--(int)
 	{
-		BasicIterator result(data_);
-		data_ = data_->prev;
+		BasicIterator result(m_nodePtr);
+		m_nodePtr = m_nodePtr->prev;
 		return result;
 	}
+
 	BasicIterator operator-(int count)
 	{
-		BasicIterator result(data_);
+		BasicIterator result(m_nodePtr);
 		while (count--)
+		{
 			--result;
+		}
 		return result;
 	}
+
 	BasicIterator operator+(int count)
 	{
-		BasicIterator result(data_);
+		BasicIterator result(m_nodePtr);
 		while (count--)
+		{
 			++result;
+		}
 		return result;
 	}
+
 	bool operator==(const BasicIterator& other) const
 	{
-		return data_ == other.data_;
+		return m_nodePtr == other.m_nodePtr;
 	}
+
 	bool operator!=(const BasicIterator& other) const
 	{
-		return data_ != other.data_;
+		return !(*this == other);
 	}
-	value_type& operator*() { return ((node*)data_)->value; }
-	value_type* operator->() { return &((node*)data_)->value; }
 
-private:
-	node_base* data_;
+	value_type& operator*()
+	{
+		return (static_cast<node*>(m_nodePtr))->value;
+	}
+
+	value_type* operator->()
+	{
+		return &(static_cast<node*>(m_nodePtr))->value;
+	}
+
+protected:
+	node_base* m_nodePtr;
+};
+
+template <class ValueType,
+	class Pointer = ValueType*, class Reference = ValueType&>
+class ReverseIterator : public BasicIterator<ValueType, Pointer, Reference>
+{
+public:
+	using BI = BasicIterator<ValueType, Pointer, Reference>;
+
+	ReverseIterator()
+		: BI()
+	{
+	}
+
+	ReverseIterator(BI::node_base* nodePtr)
+		: BI(nodePtr)
+	{
+	}
+
+	ReverseIterator& operator++()
+	{
+		BI::m_nodePtr = BI::m_nodePtr->prev;
+		return *this;
+	}
+
+	ReverseIterator operator++(int)
+	{
+		ReverseIterator result(BI::m_nodePtr);
+		BI::m_nodePtr = BI::m_nodePtr->prev;
+		return result;
+	}
+
+	ReverseIterator& operator--()
+	{
+		BI::m_nodePtr = BI::m_nodePtr->next;
+		return *this;
+	}
+
+	ReverseIterator operator--(int)
+	{
+		ReverseIterator result(BI::m_nodePtr);
+		BI::m_nodePtr = BI::m_nodePtr->next;
+		return result;
+	}
+
+	ReverseIterator operator-(int count)
+	{
+		ReverseIterator result(BI::m_nodePtr);
+		while (count--)
+		{
+			--result;
+		}
+		return result;
+	}
+
+	ReverseIterator operator+(int count)
+	{
+		ReverseIterator result(BI::m_nodePtr);
+		while (count--)
+		{
+			++result;
+		}
+		return result;
+	}
 };
 
 template <class ValueType>
-class list
+class CMyList
 {
 public:
-	typedef ValueType value_type;
-	typedef ValueType& reference;
-	typedef Node<value_type> node;
-	typedef NBase node_base;
-	typedef BasicIterator<value_type> iterator;
-	list()
-		: data_(new node_base())
+	using value_type = ValueType;
+	using reference = ValueType&;
+	using const_reference = const ValueType&;
+	using node = Node<value_type>;
+	using node_base = NBase;
+	using pointer = ValueType*;
+	using const_pointer = const ValueType*;
+	using iterator = BasicIterator<value_type>;
+	using const_iterator = BasicIterator<value_type, const_pointer, const_reference>;
+	using reverse_iterator = ReverseIterator<value_type>;
+	using const_reverse_iterator = ReverseIterator<value_type, const_pointer, const_reference>;
+
+	CMyList()
+		: m_elemPtr(new node_base())
 	{
 	}
-	~list()
+
+	CMyList(const CMyList& other)
+		: m_elemPtr(new node_base())
+	{
+		iterator start = other.begin();
+		iterator finish = other.end();
+		node_base* currNode = m_elemPtr;
+
+		try
+		{
+			for (; start != finish; ++start)
+			{
+				currNode = static_cast<node_base*>(new node(m_elemPtr, currNode, *start));
+			}
+		}
+		catch (...)
+		{
+			if (currNode != m_elemPtr)
+			{
+				destroy_nodes(m_elemPtr->next, currNode);
+			}			
+			throw;
+		}
+	}
+
+	CMyList& operator=(CMyList const& other)
+	{
+		if (this == &other)
+		{
+			return *this;
+		}
+		
+		node_base* copy_elemPtr = new node_base();
+		iterator start = other.begin();
+		iterator finish = other.end();
+		node_base* currNode = copy_elemPtr;
+
+		try
+		{
+			for (; start != finish; ++start)
+			{
+				currNode = static_cast<node_base*>(new node(copy_elemPtr, currNode, *start));
+			}
+			clear();
+			m_elemPtr = copy_elemPtr;
+			return *this;
+		}
+		catch (...)
+		{
+			if (currNode != m_elemPtr)
+			{
+				destroy_nodes(m_elemPtr->next, currNode);
+			}
+			delete copy_elemPtr;
+			return *this;
+		}
+		
+	}
+
+	
+
+
+	~CMyList()
 	{
 		clear();
-		delete data_;
+		delete m_elemPtr;
 	}
+
 	int size() const
 	{
 		int result = 0;
-		for (iterator i = begin(); i != end(); ++i)
+		for (const_iterator i = cbegin(); i != cend(); ++i)
+		{
 			++result;
+		}
 		return result;
 	}
+
 	bool empty()
 	{
-		return (data_->next == data_ && data_->prev == data_);
+		return (m_elemPtr->next == m_elemPtr && m_elemPtr->prev == m_elemPtr);
 	}
+
 	void clear()
 	{
 		while (!empty())
-			delete data_->next;
+		{
+			delete m_elemPtr->next;
+		}
 	}
-	reference back() { return *(end() - 1); }
-	reference front() { return *begin(); }
-	iterator begin() const { return data_->next; }
-	iterator end() const { return data_; }
-	iterator insert(iterator before, const value_type& value)
+
+	reference back()
 	{
-		return new node((NBase*)before, ((NBase*)before)->prev, value);
+		return *(end() - 1);
 	}
-	iterator find_first(const value_type& what)
+
+	reference front()
 	{
-		iterator result = begin();
-		while (result != end() && *result != what)
-			++result;
-		return result;
+		return *begin();
 	}
-	iterator erase(iterator what)
+
+	iterator begin() const
 	{
-		iterator result = what + 1;
-		delete (node*)what;
-		return result;
+		return m_elemPtr->next;
 	}
-	// erases elements in range [begin, end)
-	iterator erase(iterator begin, iterator end)
+
+	const_iterator cbegin() const
+	{
+		return m_elemPtr->next;
+	}
+
+	iterator end() const
+	{
+		return m_elemPtr;
+	}
+
+	const_iterator cend() const
+	{
+		return m_elemPtr;
+	}
+
+	reverse_iterator rbegin() const
+	{
+		return m_elemPtr->prev;
+	}
+
+	const_reverse_iterator crbegin() const
+	{
+		return m_elemPtr->prev;
+	}
+
+	reverse_iterator rend() const
+	{
+		return m_elemPtr;
+	}
+
+	const_reverse_iterator crend() const
+	{
+		return m_elemPtr;
+	}
+
+	iterator insert(const_iterator before, const value_type& value)
+	{
+		return new node(static_cast<node_base*>(before), (static_cast<node_base*>(before))->prev, value);
+	}
+
+	iterator erase(const_iterator what)
+	{
+		const_iterator result = what + 1;
+		delete static_cast<node*>(what);
+		return static_cast<iterator>(result);
+	}
+
+	iterator erase(const_iterator begin, const_iterator end)
 	{
 		while (begin != end)
-			begin = erase(begin);
-		return begin;
+		{
+			begin = static_cast<const_iterator>(erase(begin));
+		}
+		return static_cast<iterator>(begin);
 	}
+
+	iterator push_front(const value_type& value)
+	{
+		return insert(cbegin(), value);
+	}
+
 	iterator push_back(const value_type& value)
 	{
-		return insert(end(), value);
-		//return new node(data_, data_->prev, value);
+		return insert(cend(), value);
 	}
 
 private:
-	node_base* data_; // элемент, наход€щийс€ "перед" списком и сразу
-		// "за" списком
+	node_base* m_elemPtr; // особый элемент, предшествующий первому элементу списка и следующий за последним элементом списка
+
+	void destroy_node_at(node* nodePtr)
+	{
+		nodePtr->~Node();
+	}
+
+	void destroy_nodes(node_base* first, node_base* last)
+	{
+		for (; first != last; first = first->next)
+		{
+			destroy_node_at(static_cast<node*>(first));
+		}
+	}
+
 };
+
+
+

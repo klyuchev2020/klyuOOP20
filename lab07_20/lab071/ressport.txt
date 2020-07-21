@@ -1,0 +1,63 @@
+less
+greater or equal cchar
+Maximal = 45
+Maximal = zhuchka
+
+Sportsman:
+  Name: Ben Johnson
+height: 1.89 m
+weight: 83.52 kg
+
+
+Enter sportsman name and press enter (emtpy string for quit):
+Enter sportsman height and weight with space beetween:
+Thank you!
+
+Sportsman:
+  Name: Tyson Mike
+height: 1.76 m
+weight: 82.98 kg
+
+
+Enter sportsman name and press enter (emtpy string for quit):
+Enter sportsman height and weight with space beetween:
+Thank you!
+
+Sportsman:
+  Name: Maradona Diego
+height: 1.72 m
+weight: 71.45 kg
+
+
+Enter sportsman name and press enter (emtpy string for quit):
+Enter sportsman height and weight with space beetween:
+Thank you!
+
+Sportsman:
+  Name: Min Yao
+height: 2.28 m
+weight: 112.34 kg
+
+
+Enter sportsman name and press enter (emtpy string for quit):
+Enter sportsman height and weight with space beetween:
+Thank you!
+
+Sportsman:
+  Name: Lindros Erik
+height: 1.95 m
+weight: 100.20 kg
+
+
+Enter sportsman name and press enter (emtpy string for quit):
+Enter sportsman height and weight with space beetween:
+Thank you!
+
+Sportsman:
+  Name: Agassi Andrew
+height: 1.82 m
+weight: 80.35 kg
+
+
+Enter sportsman name and press enter (emtpy string for quit):
+Sportsmen data input complete! Thank you!
