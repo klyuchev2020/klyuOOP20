@@ -37,6 +37,7 @@ std::istream& operator>>(std::istream& is, Sportsman& smn)
 {
 	std::cout << "Enter sportsman name and press enter (emtpy string for quit):" << std::endl;
 	std::string name;
+	is >> std::ws;
 	std::getline(is, name);
 	if (name.empty())
 	{

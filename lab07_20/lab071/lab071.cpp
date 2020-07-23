@@ -15,32 +15,11 @@ int main()
 		std::cout << "greater or equal" << std::endl;
 	}
 
-	Less<const char*> ccharcomp;
-	if (ccharcomp("bab", "abc"))
-	{
-		std::cout << "less cchar" << std::endl;
-	}
-	else
-	{
-		std::cout << "greater or equal cchar" << std::endl;
-	}
-
 	std::vector<int> testArray = { 23, 3, 45, 34, 2, 37, 2, 12, 21, 24 };
 	int max;
 	if (FindMax(testArray, max, comp))
 	{
 		std::cout << "Maximal = " << max << std::endl;
-	}
-	else
-	{
-		std::cout << "Array is empty" << std::endl;
-	}
-
-	std::vector<const char*> testArrayCchar = { "myshka", "koshka", "zhuchka", "vnuchka", "babka", "dedka", "repka" };
-	const char* maxCchar;
-	if (FindMax(testArrayCchar, maxCchar, ccharcomp))
-	{
-		std::cout << "Maximal = " << maxCchar << std::endl;
 	}
 	else
 	{
@@ -59,13 +38,26 @@ int main()
 
 	std::cin.clear();
 
-	Less<Sportsman> hless;
+	Less<Sportsman, 1> hless;
 
 	Sportsman tallMan;
 	if (FindMax(champions, tallMan, hless))
 	{
-		std::cout << "Most tall sportsman is" << std::endl;
+		std::cout << "Most tall" << std::endl;
 		std::cout << tallMan;
+	}
+	else
+	{
+		std::cout << "No sportsmen at all!" << std::endl;
+	}
+	
+	Less<Sportsman, 2> wless;
+
+	Sportsman fatMan;
+	if (FindMax(champions, fatMan, wless))
+	{
+		std::cout << "Most fat" << std::endl;
+		std::cout << fatMan;
 	}
 	else
 	{
